@@ -1,0 +1,57 @@
+
+# ==========================================
+# Synthetic Transaction Plan
+# Agentic AI Risk Workflow
+# ==========================================
+
+version: "1.0"
+
+portfolio_id: "PORT_001"
+
+execution_model:
+  price_basis: "adjusted_close"
+  quantity_type: "synthetic_total_return_units"
+  execution_timing: "market_close"
+  fees_usd: 0.0
+  allow_short_positions: false
+  allow_leverage: false
+  settlement_assumption: "same_day"
+
+transactions:
+
+  # Equity risk build-up
+  - trade_date: "2022-06-10"
+    trades:
+      - instrument_id: "IEF"
+        side: "SELL"
+        target_notional_usd: 8000000
+
+      - instrument_id: "QQQ"
+        side: "BUY"
+        target_notional_usd: 8000000
+
+  # Rate-sensitive ETF exposure increase
+  - trade_date: "2023-03-10"
+    trades:
+      - instrument_id: "SPY"
+        side: "SELL"
+        target_notional_usd: 6000000
+
+      - instrument_id: "TLT"
+        side: "BUY"
+        target_notional_usd: 6000000
+
+  # Portfolio de-risking
+  - trade_date: "2024-08-02"
+    trades:
+      - instrument_id: "QQQ"
+        side: "SELL"
+        target_notional_usd: 7000000
+
+      - instrument_id: "HYG"
+        side: "SELL"
+        target_notional_usd: 3000000
+
+      - instrument_id: "IEF"
+        side: "BUY"
+        target_notional_usd: 10000000

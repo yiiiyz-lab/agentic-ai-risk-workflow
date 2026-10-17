@@ -1,0 +1,8 @@
+transaction_id,portfolio_id,trade_date,instrument_id,side,quantity,execution_price,fees_usd,source
+TXN_0001,PORT_001,2022-06-10,IEF,SELL,91875.532178,87.0743255615,0,synthetic_adjusted_close
+TXN_0002,PORT_001,2022-06-10,QQQ,BUY,28465.7103315,281.039886475,0,synthetic_adjusted_close
+TXN_0003,PORT_001,2023-03-10,SPY,SELL,16300.5006853,368.086853027,0,synthetic_adjusted_close
+TXN_0004,PORT_001,2023-03-10,TLT,BUY,65835.7115907,91.1359481812,0,synthetic_adjusted_close
+TXN_0005,PORT_001,2024-08-02,QQQ,SELL,15778.9005771,443.630401611,0,synthetic_adjusted_close
+TXN_0006,PORT_001,2024-08-02,HYG,SELL,43807.4573479,68.4814910889,0,synthetic_adjusted_close
+TXN_0007,PORT_001,2024-08-02,IEF,BUY,111249.56384,89.8879928589,0,synthetic_adjusted_close

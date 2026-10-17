@@ -1,0 +1,121 @@
+# ==========================================
+# Portfolio Configuration
+# Agentic AI Risk Workflow
+# ==========================================
+
+portfolio:
+  portfolio_id: "PORT_001"
+  name: "Multi-Asset ETF Portfolio"
+  description: "Illustrative multi-asset portfolio for daily market risk monitoring and AI investigation."
+
+  base_currency: "USD"
+  initial_nav: 100000000
+
+  # Portfolio setup
+  inception_date: "2020-01-02"
+  position_management:
+    strategy: "transaction_driven"
+    rebalance_frequency: null
+    allow_short_positions: false
+    allow_leverage: false
+    transaction_source: "data/sample/transactions.csv"
+    execution_timing: "market_close"
+    settlement_assumption: "same_day"
+    cash_management: "self_financed"
+
+  # Initial portfolio allocation
+  holdings:
+    - instrument_id: "SPY"
+      asset_class: "Equity"
+      asset_subclass: "US Large Cap"
+      initial_weight: 0.25
+      primary_risk_factors:
+        - "US_EQUITY_MARKET"
+
+    - instrument_id: "QQQ"
+      asset_class: "Equity"
+      asset_subclass: "US Growth / Technology"
+      initial_weight: 0.20
+      primary_risk_factors:
+        - "US_EQUITY_MARKET"
+        - "US_GROWTH_EQUITY"
+
+    - instrument_id: "IEF"
+      asset_class: "Rates"
+      asset_subclass: "Intermediate US Treasury"
+      initial_weight: 0.20
+      primary_risk_factors:
+        - "US_TREASURY_INTERMEDIATE"
+
+    - instrument_id: "TLT"
+      asset_class: "Rates"
+      asset_subclass: "Long US Treasury"
+      initial_weight: 0.15
+      primary_risk_factors:
+        - "US_TREASURY_LONG"
+
+    - instrument_id: "LQD"
+      asset_class: "Credit"
+      asset_subclass: "Investment Grade Corporate Bonds"
+      initial_weight: 0.10
+      primary_risk_factors:
+        - "US_INTEREST_RATES"
+        - "IG_CREDIT_SPREAD"
+
+    - instrument_id: "HYG"
+      asset_class: "Credit"
+      asset_subclass: "High Yield Corporate Bonds"
+      initial_weight: 0.10
+      primary_risk_factors:
+        - "HY_CREDIT_SPREAD"
+        - "US_EQUITY_MARKET"
+
+  # Initial portfolio exposure classification
+  exposure_groups:
+    equity:
+      instruments: ["SPY", "QQQ"]
+
+    treasury_etfs:
+      instruments: ["IEF", "TLT"]
+
+    credit_etfs:
+      instruments: ["LQD", "HYG"]
+
+    rate_sensitive_etfs:
+      instruments: ["IEF", "TLT", "LQD"]
+
+  # Optional benchmark for beta estimation
+  benchmarks:
+    equity_beta: "SPY"
+
+  # Risk factor monitoring scope
+  risk_factor_monitoring:
+    equity_market:
+      enabled: true
+      factor_id: "US_EQUITY_MARKET"
+
+    us_growth_equity:
+      enabled: true
+      factor_id: "US_GROWTH_EQUITY"
+
+    treasury_intermediate:
+      enabled: true
+      factor_id: "US_TREASURY_INTERMEDIATE"
+
+    treasury_long:
+      enabled: true
+      factor_id: "US_TREASURY_LONG"
+
+    credit_ig:
+      enabled: true
+      factor_id: "IG_CREDIT_SPREAD"
+
+    credit_hy:
+      enabled: true
+      factor_id: "HY_CREDIT_SPREAD"
+
+  # Data assumptions
+  market_data:
+    price_frequency: "daily"
+    price_type: "adjusted_close"
+    source: "yfinance"

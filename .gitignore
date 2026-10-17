@@ -218,3 +218,24 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ==========================================
+# Agentic AI Risk Workflow - Project Specific
+# ==========================================
+
+# Generated risk reports and investigation results
+data/outputs/
+outputs/
+logs/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Local environment files and API credentials
+.env.*
+!.env.example
+
+# macOS
+.DS_Store

@@ -1,0 +1,213 @@
+
+# ==========================================
+# Risk Metric Registry - Version 1.0
+# Agentic AI Risk Workflow
+# ==========================================
+
+version: "1.0"
+
+defaults:
+  frequency: "daily"
+  calendar: "US_TRADING_DAYS"
+  base_currency: "USD"
+  missing_data_policy: "flag_and_block_affected_metrics"
+
+  # All lookback periods are measured in trading days.
+  annualization_factor: 252
+
+  # Thresholds and breach rules are defined separately
+  # in config/risk_limits.yaml.
+
+metrics:
+
+  # ========================================
+  # 1. Portfolio-Level Risk Metrics
+  # ========================================
+
+  - metric_id: "portfolio_nav"
+    name: "Portfolio Net Asset Value"
+    level: "portfolio"
+    category: "portfolio_value"
+    method: "mark_to_market"
+    unit: "USD"
+    monitoring: true
+    attribution_method: "position_value_decomposition"
+
+  - metric_id: "daily_pnl"
+    name: "Daily Portfolio P&L"
+    level: "portfolio"
+    category: "pnl"
+    method: "transaction_adjusted_pnl"
+    unit: "USD"
+    monitoring: true
+    attribution_method: "asset_level_pnl_attribution"
+
+  - metric_id: "var_99_1d"
+    name: "1-Day 99% Historical VaR"
+    level: "portfolio"
+    category: "market_risk"
+    method: "historical_simulation"
+    unit: "USD"
+    confidence_level: 0.99
+    holding_period_days: 1
+    lookback_days: 252
+    monitoring: true
+    attribution_method: "counterfactual_var_change"
+
+  - metric_id: "es_99_1d"
+    name: "1-Day 99% Expected Shortfall"
+    level: "portfolio"
+    category: "market_risk"
+    method: "historical_simulation"
+    unit: "USD"
+    confidence_level: 0.99
+    holding_period_days: 1
+    lookback_days: 252
+    monitoring: true
+    attribution_method: "tail_loss_analysis"
+
+  - metric_id: "annualized_volatility"
+    name: "Annualized Portfolio Volatility"
+    level: "portfolio"
+    category: "risk_trend"
+    method: "historical_standard_deviation"
+    unit: "decimal"
+    lookback_days: 63
+    annualization_factor: 252
+    monitoring: true
+    attribution_method: "volatility_change_analysis"
+
+  - metric_id: "drawdown"
+    name: "Portfolio Drawdown"
+    level: "portfolio"
+    category: "risk_trend"
+    method: "running_peak_drawdown"
+    unit: "decimal"
+    monitoring: true
+    attribution_method: "drawdown_contribution_analysis"
+
+  # ========================================
+  # 2. Scenario Risk
+  # ========================================
+
+  - metric_id: "stress_loss"
+    name: "Portfolio Stress Loss"
+    level: "portfolio"
+    category: "stress_testing"
+    method: "scenario_revaluation"
+    unit: "USD"
+    monitoring: true
+    dimensions:
+      - "scenario_id"
+    attribution_method: "scenario_loss_attribution"
+
+  # ========================================
+  # 3. Asset Exposure Monitoring
+  # ========================================
+
+  - metric_id: "asset_group_exposure_usd"
+    name: "Asset Group Exposure"
+    level: "asset_group"
+    category: "exposure"
+    method: "sum_group_market_values"
+    unit: "USD"
+    monitoring: true
+    dimensions:
+      - "exposure_group"
+    attribution_method: "exposure_change_attribution"
+
+  - metric_id: "asset_group_exposure_pct"
+    name: "Asset Group Exposure as % of NAV"
+    level: "asset_group"
+    category: "exposure"
+    method: "group_market_value_over_nav"
+    unit: "decimal"
+    monitoring: true
+    dimensions:
+      - "exposure_group"
+    attribution_method: "exposure_change_attribution"
+
+  # ========================================
+  # 4. Instrument Concentration
+  # ========================================
+
+  - metric_id: "instrument_weight"
+    name: "Instrument Weight"
+    level: "instrument"
+    category: "concentration"
+    method: "instrument_market_value_over_nav"
+    unit: "decimal"
+    monitoring: true
+    dimensions:
+      - "instrument_id"
+    attribution_method: "position_weight_change_attribution"
+
+  # ========================================
+  # 5. Risk Factor Sensitivities
+  # ========================================
+
+  - metric_id: "equity_beta"
+    name: "Portfolio Equity Beta"
+    level: "portfolio"
+    category: "risk_sensitivity"
+    method: "rolling_ols_beta"
+    unit: "beta"
+    lookback_days: 126
+    benchmark_ref: "portfolio.benchmarks.equity_beta"
+    minimum_valid_observations: 100
+    monitoring: true
+    attribution_method: "beta_change_attribution"
+
+  # ========================================
+  # 6. Future Metrics - Not Yet Implemented
+  # ========================================
+
+  - metric_id: "duration"
+    name: "Interest Rate Duration"
+    level: "portfolio"
+    category: "risk_sensitivity"
+    method: "position_weighted_duration"
+    unit: "years"
+    monitoring: false
+    implementation_status: "planned"
+    attribution_method: "duration_change_attribution"
+
+  - metric_id: "dv01"
+    name: "Dollar Value of 1bp"
+    level: "portfolio"
+    category: "risk_sensitivity"
+    method: "instrument_level_dv01_aggregation"
+    unit: "USD_per_bp"
+    monitoring: false
+    implementation_status: "planned"
+    attribution_method: "dv01_change_attribution"
+
+  - metric_id: "cs01"
+    name: "Credit Spread Sensitivity"
+    level: "portfolio"
+    category: "risk_sensitivity"
+    method: "instrument_level_cs01_aggregation"
+    unit: "USD_per_bp"
+    monitoring: false
+    implementation_status: "planned"
+    attribution_method: "cs01_change_attribution"
+
+  - metric_id: "gamma"
+    name: "Portfolio Gamma"
+    level: "portfolio"
+    category: "risk_sensitivity"
+    method: "option_gamma_aggregation"
+    unit: "model_defined"
+    monitoring: false
+    implementation_status: "planned"
+    attribution_method: "gamma_change_attribution"
+
+  - metric_id: "vega"
+    name: "Portfolio Vega"
+    level: "portfolio"
+    category: "risk_sensitivity"
+    method: "option_vega_aggregation"
+    unit: "USD_per_vol_point"
+    monitoring: false
+    implementation_status: "planned"
+    attribution_method: "vega_change_attribution"
