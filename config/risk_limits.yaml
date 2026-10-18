@@ -1,0 +1,50 @@
+
+portfolio_id: PORT_001
+policy_version: "1.0"
+policy_type: illustrative_internal_limits
+
+rules:
+  - rule_id: VAR_99_LIMIT
+    metric: var_99_pct_nav
+    label: 1-Day 99% Historical VaR
+    direction: max
+    warning_threshold: 0.020
+    breach_threshold: 0.025
+    unit: pct_nav
+    severity: HIGH
+
+  - rule_id: ES_99_LIMIT
+    metric: es_99_pct_nav
+    label: 1-Day 99% Historical ES
+    direction: max
+    warning_threshold: 0.030
+    breach_threshold: 0.035
+    unit: pct_nav
+    severity: HIGH
+
+  - rule_id: EQUITY_EXPOSURE_LIMIT
+    metric: equity_exposure_pct
+    label: Equity Exposure
+    direction: max
+    warning_threshold: 0.60
+    breach_threshold: 0.65
+    unit: pct_nav
+    severity: MEDIUM
+
+  - rule_id: SINGLE_INSTRUMENT_LIMIT
+    metric: largest_position_weight
+    label: Single-Instrument Concentration
+    direction: max
+    warning_threshold: 0.30
+    breach_threshold: 0.35
+    unit: pct_nav
+    severity: HIGH
+
+  - rule_id: DRAWDOWN_LIMIT
+    metric: drawdown
+    label: Portfolio Drawdown
+    direction: min
+    warning_threshold: -0.10
+    breach_threshold: -0.15
+    unit: return
+    severity: HIGH

@@ -121,16 +121,21 @@ def calculate_risk_metrics(data_dir="data/sample"):
     var_values = []
     es_values = []
 
+    # Track historical data availability for VaR and ES.
+    var_available_observations = []
+
     for i, date in enumerate(prices.index):
+        # Exclude the valuation date's return.
+        # The first price observation has no daily return.
+        available = min(max(i - 1, 0), VAR_WINDOW)
+        var_available_observations.append(available)
+
         if i <= VAR_WINDOW:
             var_values.append(np.nan)
             es_values.append(np.nan)
             continue
 
         # Use the previous 252 completed daily returns.
-        # The first return is NaN, so 253 price observations
-        # are required before the first valid VaR estimate.
-
         historical_returns = price_returns.iloc[
             i - VAR_WINDOW : i
         ]
@@ -143,9 +148,11 @@ def calculate_risk_metrics(data_dir="data/sample"):
 
         # 99% loss VaR and ES, expressed as positive loss amounts.
         scenario_losses = -scenario_pnl.to_numpy()
+
         var_99 = float(np.quantile(
             scenario_losses, CONFIDENCE, method="linear"
         ))
+
         tail_losses = scenario_losses[
             scenario_losses >= var_99
         ]
@@ -157,6 +164,13 @@ def calculate_risk_metrics(data_dir="data/sample"):
     results["es_99_usd"] = es_values
     results["var_99_pct_nav"] = results["var_99_usd"] / nav
     results["es_99_pct_nav"] = results["es_99_usd"] / nav
+
+    # Historical data availability for UI and AI investigation.
+    results["var_available_observations"] = var_available_observations
+    results["var_required_observations"] = VAR_WINDOW
+
+    results["es_available_observations"] = var_available_observations
+    results["es_required_observations"] = VAR_WINDOW
 
     # Rolling realized portfolio volatility.
     results["annualized_volatility"] = (
@@ -175,6 +189,7 @@ def calculate_risk_metrics(data_dir="data/sample"):
             symbol for symbol, category in ASSET_GROUPS.items()
             if category == group
         ]
+
         exposure = market_values[group_symbols].sum(axis=1)
 
         results[f"{group.lower()}_exposure_usd"] = exposure
