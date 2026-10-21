@@ -1,6 +1,7 @@
 
 """Budget-controlled OpenAI Responses API client."""
 
+import json
 import os
 from dataclasses import dataclass
 from decimal import Decimal
@@ -18,12 +19,7 @@ from src.agent.openai_adapter import (
 
 
 class APIRequestUncertainError(RuntimeError):
-    """
-    A request failed without trustworthy usage information.
-
-    Its budget reservation remains active because the
-    provider may have received and billed the request.
-    """
+    """Request outcome or usage is unknown; reservation retained."""
 
     def __init__(self, reservation_id: str):
         self.reservation_id = reservation_id
@@ -31,6 +27,40 @@ class APIRequestUncertainError(RuntimeError):
             "API request outcome is uncertain; "
             "reservation retained for reconciliation"
         )
+
+
+class APIResponseStatusError(RuntimeError):
+    """The provider returned a non-completed response."""
+
+    def __init__(self, status: str):
+        self.status = status
+        super().__init__(
+            f"API response was not completed: {status}"
+        )
+
+
+@dataclass(frozen=True)
+class RequestAudit:
+    model: str
+    outcome: str
+    response_id: str | None
+    input_tokens: int | None
+    output_tokens: int | None
+    estimated_cost_usd: str | None
+    reservation_id: str
+    details: str | None = None
+
+    def to_dict(self):
+        return {
+            "model": self.model,
+            "outcome": self.outcome,
+            "response_id": self.response_id,
+            "input_tokens": self.input_tokens,
+            "output_tokens": self.output_tokens,
+            "estimated_cost_usd": self.estimated_cost_usd,
+            "reservation_id": self.reservation_id,
+            "details": self.details,
+        }
 
 
 @dataclass(frozen=True)
@@ -42,14 +72,21 @@ class APIResult:
     settlement: dict[str, Any]
 
 
+def _get(obj, name, default=None):
+    if isinstance(obj, dict):
+        return obj.get(name, default)
+    return getattr(obj, name, default)
+
+
 class OpenAIResponsesClient:
     """
-    Opt-in OpenAI client with per-request budget reservation.
+    Explicitly enabled Responses API client.
 
-    SDK clients may be injected for offline tests.
-    No SDK or network connection is initialized until
-    an enabled request is attempted.
+    The application owns tool execution, not this client.
     """
+
+    MAX_INPUT_ESTIMATE = 12000
+    MAX_REQUEST_CHARS = 40000
 
     def __init__(
         self,
@@ -63,6 +100,7 @@ class OpenAIResponsesClient:
         self.budget = budget
         self._sdk_client = sdk_client
         self.pricing_verified = pricing_verified
+        self.audit_log: list[RequestAudit] = []
 
     def _get_sdk_client(self):
         if self._sdk_client is None:
@@ -70,8 +108,7 @@ class OpenAIResponsesClient:
                 from openai import OpenAI
             except ImportError as exc:
                 raise APIConfigurationError(
-                    "Install the openai package before "
-                    "using live API access"
+                    "Install openai before live API use"
                 ) from exc
 
             self._sdk_client = OpenAI(
@@ -82,6 +119,34 @@ class OpenAIResponsesClient:
 
         return self._sdk_client
 
+    def _audit(
+        self,
+        *,
+        outcome,
+        reservation_id,
+        response_id=None,
+        input_tokens=None,
+        output_tokens=None,
+        estimated_cost_usd=None,
+        details=None,
+    ):
+        record = RequestAudit(
+            model=self.config.model,
+            outcome=outcome,
+            response_id=response_id,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            estimated_cost_usd=(
+                str(estimated_cost_usd)
+                if estimated_cost_usd is not None
+                else None
+            ),
+            reservation_id=reservation_id,
+            details=details,
+        )
+        self.audit_log.append(record)
+        return record
+
     def create_response(
         self,
         *,
@@ -90,30 +155,20 @@ class OpenAIResponsesClient:
         tools: list,
         max_input_tokens_estimate: int,
     ) -> APIResult:
-        """
-        Submit one bounded request.
-
-        max_input_tokens_estimate must be a conservative
-        upper bound supplied by the calling workflow.
-
-        On an uncertain request failure, the reservation
-        is retained and an error containing its ID is raised.
-        """
         self.config.require_enabled()
 
         if not self.pricing_verified:
             raise APIConfigurationError(
-                "Model pricing must be verified before "
-                "enabling live requests"
+                "Model pricing must be verified"
             )
 
         if (
             type(max_input_tokens_estimate) is not int
-            or max_input_tokens_estimate <= 0
+            or not 0 < max_input_tokens_estimate
+            <= self.MAX_INPUT_ESTIMATE
         ):
             raise ValueError(
-                "Input token estimate must be a "
-                "positive integer"
+                "Input token estimate exceeds allowed range"
             )
 
         if not isinstance(instructions, str) or not instructions:
@@ -125,6 +180,28 @@ class OpenAIResponsesClient:
         if not isinstance(tools, list):
             raise ValueError("Tools must be a list")
 
+        # Character-based guard, not an exact token count.
+        # Covers instructions, conversation, and tool schemas.
+        try:
+            serialized = json.dumps(
+                {
+                    "instructions": instructions,
+                    "input": input,
+                    "tools": tools,
+                },
+                ensure_ascii=False,
+                allow_nan=False,
+            )
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                "Request payload is not valid JSON"
+            ) from exc
+
+        if len(serialized) > self.MAX_REQUEST_CHARS:
+            raise ValueError(
+                "Request payload exceeds character limit"
+            )
+
         max_output_tokens = (
             self.budget.max_output_tokens_per_call
         )
@@ -134,9 +211,6 @@ class OpenAIResponsesClient:
             max_output_tokens,
         )
 
-        # Initialize the client before reserving budget.
-        # A missing SDK or invalid local setup must not
-        # leave an unresolved reservation.
         sdk = self._get_sdk_client()
 
         reservation_id = self.budget.reserve_llm_call(
@@ -154,30 +228,23 @@ class OpenAIResponsesClient:
                 store=False,
             )
         except Exception as exc:
-            # Do not cancel. A timeout or transport failure
-            # does not establish that no billable work occurred.
+            self._audit(
+                outcome="UNCERTAIN",
+                reservation_id=reservation_id,
+                details="Request failed without usage data",
+            )
             raise APIRequestUncertainError(
                 reservation_id
             ) from exc
 
-        # A response was returned. Account for usage before
-        # normalizing its tool calls or text.
-        usage = getattr(raw_response, "usage", None)
-        if isinstance(raw_response, dict):
-            usage = raw_response.get("usage")
+        response_id = _get(raw_response, "id")
+        if not isinstance(response_id, str):
+            response_id = None
 
-        if usage is None:
-            raise APIRequestUncertainError(
-                reservation_id
-            )
+        usage = _get(raw_response, "usage")
 
-        def read_usage(field):
-            if isinstance(usage, dict):
-                return usage.get(field)
-            return getattr(usage, field, None)
-
-        input_tokens = read_usage("input_tokens")
-        output_tokens = read_usage("output_tokens")
+        input_tokens = _get(usage, "input_tokens")
+        output_tokens = _get(usage, "output_tokens")
 
         if (
             type(input_tokens) is not int
@@ -185,6 +252,12 @@ class OpenAIResponsesClient:
             or input_tokens < 0
             or output_tokens < 0
         ):
+            self._audit(
+                outcome="UNCERTAIN",
+                reservation_id=reservation_id,
+                response_id=response_id,
+                details="Missing or invalid usage data",
+            )
             raise APIRequestUncertainError(
                 reservation_id
             )
@@ -199,12 +272,50 @@ class OpenAIResponsesClient:
             actual_cost,
         )
 
-        # Normalization may fail, but the billable request
-        # has already been accounted for.
-        response = normalize_response(raw_response)
+        status = _get(raw_response, "status", "completed")
+
+        if status != "completed":
+            self._audit(
+                outcome="INCOMPLETE",
+                reservation_id=reservation_id,
+                response_id=response_id,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                estimated_cost_usd=actual_cost,
+                details=f"Provider status: {status}",
+            )
+            raise APIResponseStatusError(str(status))
+
+        try:
+            normalized = normalize_response(raw_response)
+        except (ValueError, TypeError, AttributeError) as exc:
+            self._audit(
+                outcome="INVALID_RESPONSE",
+                reservation_id=reservation_id,
+                response_id=response_id,
+                input_tokens=input_tokens,
+                output_tokens=output_tokens,
+                estimated_cost_usd=actual_cost,
+                details="Response normalization failed",
+            )
+            raise
+
+        self._audit(
+            outcome="COMPLETED",
+            reservation_id=reservation_id,
+            response_id=response_id,
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            estimated_cost_usd=actual_cost,
+            details=(
+                "Estimated cost exceeded reservation"
+                if settlement["over_reservation"]
+                else None
+            ),
+        )
 
         return APIResult(
-            response=response,
+            response=normalized,
             reservation_id=reservation_id,
             reserved_cost_usd=reserved_cost,
             estimated_actual_cost_usd=actual_cost,
@@ -218,7 +329,6 @@ def build_live_client(
     sdk_client=None,
     environ=None,
 ):
-    """Construct a client from explicit environment settings."""
     env = os.environ if environ is None else environ
     config = OpenAIConfig.from_env(env)
 
