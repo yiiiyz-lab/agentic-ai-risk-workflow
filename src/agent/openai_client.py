@@ -1,9 +1,16 @@
 
-"""Budget-controlled OpenAI Responses API client."""
+"""Budget-controlled OpenAI Responses API client.
+
+Supports stateless multi-round investigations by preserving the
+provider's response output, including encrypted reasoning items.
+
+Tool execution remains the responsibility of the orchestrator.
+"""
 
 import json
 import os
-from dataclasses import dataclass
+
+from dataclasses import dataclass, field
 from decimal import Decimal
 from typing import Any
 
@@ -71,6 +78,12 @@ class APIResult:
     estimated_actual_cost_usd: Decimal
     settlement: dict[str, Any]
 
+    # Provider output items for stateless conversation continuation.
+    # Do not write these items to public logs or reports.
+    response_output: list[dict[str, Any]] = field(
+        default_factory=list
+    )
+
 
 def _get(obj, name, default=None):
     if isinstance(obj, dict):
@@ -78,9 +91,54 @@ def _get(obj, name, default=None):
     return getattr(obj, name, default)
 
 
-class OpenAIResponsesClient:
+def _serialize_response_output(raw_response):
+    """Convert SDK output items into JSON-compatible dictionaries.
+
+    Preserve complete output items, including reasoning items and
+    encrypted_content when returned by the API.
     """
-    Explicitly enabled Responses API client.
+    raw_output = _get(raw_response, "output", [])
+
+    if raw_output is None:
+        raw_output = []
+
+    if not isinstance(raw_output, list):
+        raise ValueError("Response output must be a list")
+
+    serialized_output = []
+
+    for item in raw_output:
+        if isinstance(item, dict):
+            serialized_item = item
+        elif hasattr(item, "model_dump"):
+            serialized_item = item.model_dump(
+                mode="json",
+                exclude_none=True,
+            )
+        else:
+            raise TypeError(
+                "Response output contains an unsupported item"
+            )
+
+        if not isinstance(serialized_item, dict):
+            raise ValueError(
+                "Response output item must be an object"
+            )
+
+        serialized_output.append(serialized_item)
+
+    # Validate that the result is safe to pass back as JSON.
+    json.dumps(
+        serialized_output,
+        ensure_ascii=False,
+        allow_nan=False,
+    )
+
+    return serialized_output
+
+
+class OpenAIResponsesClient:
+    """Explicitly enabled, budget-controlled Responses API client.
 
     The application owns tool execution, not this client.
     """
@@ -144,6 +202,7 @@ class OpenAIResponsesClient:
             reservation_id=reservation_id,
             details=details,
         )
+
         self.audit_log.append(record)
         return record
 
@@ -155,6 +214,8 @@ class OpenAIResponsesClient:
         tools: list,
         max_input_tokens_estimate: int,
     ) -> APIResult:
+        """Send one budget-controlled Responses API request."""
+
         self.config.require_enabled()
 
         if not self.pricing_verified:
@@ -172,7 +233,9 @@ class OpenAIResponsesClient:
             )
 
         if not isinstance(instructions, str) or not instructions:
-            raise ValueError("Instructions must be non-empty")
+            raise ValueError(
+                "Instructions must be non-empty"
+            )
 
         if not isinstance(input, list):
             raise ValueError("Input must be a list")
@@ -226,6 +289,9 @@ class OpenAIResponsesClient:
                 max_output_tokens=max_output_tokens,
                 parallel_tool_calls=False,
                 store=False,
+                include=[
+                    "reasoning.encrypted_content",
+                ],
             )
         except Exception as exc:
             self._audit(
@@ -233,11 +299,13 @@ class OpenAIResponsesClient:
                 reservation_id=reservation_id,
                 details="Request failed without usage data",
             )
+
             raise APIRequestUncertainError(
                 reservation_id
             ) from exc
 
         response_id = _get(raw_response, "id")
+
         if not isinstance(response_id, str):
             response_id = None
 
@@ -258,6 +326,7 @@ class OpenAIResponsesClient:
                 response_id=response_id,
                 details="Missing or invalid usage data",
             )
+
             raise APIRequestUncertainError(
                 reservation_id
             )
@@ -272,7 +341,12 @@ class OpenAIResponsesClient:
             actual_cost,
         )
 
-        status = _get(raw_response, "status", "completed")
+        status = _get(raw_response, "status")
+
+        # Preserve compatibility with older offline SDK mocks
+        # that omit status. Real API responses include status.
+        if status is None:
+            status = "completed"
 
         if status != "completed":
             self._audit(
@@ -284,10 +358,16 @@ class OpenAIResponsesClient:
                 estimated_cost_usd=actual_cost,
                 details=f"Provider status: {status}",
             )
+
             raise APIResponseStatusError(str(status))
 
         try:
             normalized = normalize_response(raw_response)
+
+            response_output = _serialize_response_output(
+                raw_response
+            )
+
         except (ValueError, TypeError, AttributeError) as exc:
             self._audit(
                 outcome="INVALID_RESPONSE",
@@ -296,8 +376,9 @@ class OpenAIResponsesClient:
                 input_tokens=input_tokens,
                 output_tokens=output_tokens,
                 estimated_cost_usd=actual_cost,
-                details="Response normalization failed",
+                details="Response validation failed",
             )
+
             raise
 
         self._audit(
@@ -320,6 +401,7 @@ class OpenAIResponsesClient:
             reserved_cost_usd=reserved_cost,
             estimated_actual_cost_usd=actual_cost,
             settlement=settlement,
+            response_output=response_output,
         )
 
 
@@ -329,7 +411,10 @@ def build_live_client(
     sdk_client=None,
     environ=None,
 ):
+    """Build a live client from explicitly supplied environment settings."""
+
     env = os.environ if environ is None else environ
+
     config = OpenAIConfig.from_env(env)
 
     verified = env.get(

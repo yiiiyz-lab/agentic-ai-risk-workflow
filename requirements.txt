@@ -1,4 +1,6 @@
-pyyaml 
-pandas 
-yfinance 
+pyyaml
+pandas
+yfinance
 pytest
+openai
+python-dotenv
