@@ -4,3 +4,5 @@ yfinance
 pytest
 openai
 python-dotenv
+streamlit
+plotly
