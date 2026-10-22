@@ -1,0 +1,2519 @@
+{
+  "investigation_id": "5c56688e-21b1-4fee-8655-b0a4cda1434b",
+  "portfolio_id": "PORT_001",
+  "as_of_date": "2025-04-04",
+  "exception_id": "2025-04-04_PNL_VAR_EXCEEDANCE",
+  "rule_id": "PNL_VAR_EXCEEDANCE",
+  "exception_status": "BREACH",
+  "status": "REQUIRES_REVIEW",
+  "trace": [
+    {
+      "timestamp_utc": "2026-10-22T22:15:31.189586+00:00",
+      "event_type": "STATUS_CHANGE",
+      "details": {
+        "status": "RUNNING"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:31.189771+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 1,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:31.189775+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 1,
+        "phase": "INVESTIGATION",
+        "message_count": 1,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:31.189886+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 1,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 3717
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.738990+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 1,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b03e0b087d2b7f13bb8bbe354ce",
+        "input_tokens": 1272,
+        "output_tokens": 16,
+        "estimated_cost_usd": "0.0001352"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.739020+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "get_risk_metrics",
+        "arguments": {}
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.747998+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "get_risk_metrics",
+        "evidence_index": 0
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.748003+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "get_risk_metrics",
+        "evidence_index": 0
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.748041+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 2,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.748043+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 2,
+        "phase": "INVESTIGATION",
+        "message_count": 3,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:32.748101+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 2,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 4215
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.839363+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 2,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b0551b487d287addc5d0effe427",
+        "input_tokens": 1685,
+        "output_tokens": 36,
+        "estimated_cost_usd": "0.0001865"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.839427+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "retrieve_risk_policy",
+        "arguments": {
+          "rule_id": "PNL_VAR_EXCEEDANCE",
+          "metric": "pnl_loss_to_prior_var"
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.844068+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "retrieve_risk_policy",
+        "evidence_index": 1
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.844078+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "retrieve_risk_policy",
+        "evidence_index": 1
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.844139+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 3,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.844142+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 3,
+        "phase": "INVESTIGATION",
+        "message_count": 5,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:34.844263+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 3,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 4920
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.161783+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 3,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b06f7bc87d297a7516bd490d87e",
+        "input_tokens": 2144,
+        "output_tokens": 28,
+        "estimated_cost_usd": "0.0002284"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.161835+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "get_pnl_attribution",
+        "arguments": {
+          "lookback_days": 5
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.208586+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "get_pnl_attribution",
+        "evidence_index": 2
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.208595+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "get_pnl_attribution",
+        "evidence_index": 2
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.208741+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 4,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.208744+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 4,
+        "phase": "INVESTIGATION",
+        "message_count": 7,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:36.208856+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 4,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 7417
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.314857+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 4,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b08510487d28ac8e5e30fd74e3d",
+        "input_tokens": 4211,
+        "output_tokens": 15,
+        "estimated_cost_usd": "0.0004286"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.314896+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "analyze_positions",
+        "arguments": {}
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.345813+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "analyze_positions",
+        "evidence_index": 3
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.345820+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "analyze_positions",
+        "evidence_index": 3
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.345962+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 5,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.345965+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 5,
+        "phase": "INVESTIGATION",
+        "message_count": 9,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:37.346122+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 5,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 8941
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.423515+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 5,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b097cf087d2abef62d6440ed933",
+        "input_tokens": 5485,
+        "output_tokens": 21,
+        "estimated_cost_usd": "0.000559"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.423578+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "analyze_transactions",
+        "arguments": {
+          "lookback_days": 5
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.452118+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "analyze_transactions",
+        "evidence_index": 4
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.452130+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "analyze_transactions",
+        "evidence_index": 4
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.452185+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 6,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.452188+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 6,
+        "phase": "INVESTIGATION",
+        "message_count": 11,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:39.452358+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 6,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 9429
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.301813+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 6,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b0b92c887d2aa073af36812ecb8",
+        "input_tokens": 5771,
+        "output_tokens": 16,
+        "estimated_cost_usd": "0.0005851"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.301856+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "get_var_attribution",
+        "arguments": {}
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.335689+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "get_var_attribution",
+        "evidence_index": 5
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.335696+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "get_var_attribution",
+        "evidence_index": 5
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.335984+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 7,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.335986+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 7,
+        "phase": "INVESTIGATION",
+        "message_count": 13,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:40.336175+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 7,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 13407
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:42.886553+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 7,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b0c75dc87d2be6fb33b2f992024",
+        "input_tokens": 9347,
+        "output_tokens": 149,
+        "estimated_cost_usd": "0.0010092"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:42.886628+00:00",
+      "event_type": "TOOL_VALIDATION_ERROR",
+      "details": {
+        "tool_name": "analyze_risk_factors",
+        "arguments": {
+          "windows": [
+            5,
+            20
+          ],
+          "scenario_dates": [
+            "2025-04-03",
+            "2025-04-04"
+          ]
+        },
+        "error_type": "ToolValidationError",
+        "error_message": "Scenario dates must precede as-of date"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:42.886653+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 8,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:42.886656+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 8,
+        "phase": "INVESTIGATION",
+        "message_count": 16,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:42.886912+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 8,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 14566
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.318244+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 8,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b0f021487d2b08f3f771d6f6f2a",
+        "input_tokens": 9575,
+        "output_tokens": 60,
+        "estimated_cost_usd": "0.0009875"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.318305+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "analyze_risk_factors",
+        "arguments": {
+          "windows": [
+            5,
+            20
+          ],
+          "scenario_dates": [
+            "2025-04-03",
+            "2025-04-02"
+          ]
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.344102+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "analyze_risk_factors",
+        "evidence_index": 6
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.344108+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "analyze_risk_factors",
+        "evidence_index": 6
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.344450+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 9,
+        "phase": "INVESTIGATION",
+        "tool_count": 10
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.344453+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 9,
+        "phase": "INVESTIGATION",
+        "message_count": 19,
+        "tool_count": 10,
+        "instruction_characters": 3256
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:44.344730+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 9,
+        "phase": "INVESTIGATION",
+        "estimated_input_tokens": 19391
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.353364+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 9,
+        "phase": "INVESTIGATION",
+        "response_id": "resp_05dbeb6a67f47615016ada8b10738c87d2b1bb78a4b712388c",
+        "input_tokens": 13297,
+        "output_tokens": 21,
+        "estimated_cost_usd": "0.0013402"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.353409+00:00",
+      "event_type": "TOOL_CALL",
+      "details": {
+        "tool_name": "check_data_quality",
+        "arguments": {
+          "lookback_days": 5
+        }
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.385739+00:00",
+      "event_type": "EVIDENCE_RECORDED",
+      "details": {
+        "tool_name": "check_data_quality",
+        "evidence_index": 7
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.385746+00:00",
+      "event_type": "TOOL_SUCCESS",
+      "details": {
+        "tool_name": "check_data_quality",
+        "evidence_index": 7
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.385821+00:00",
+      "event_type": "REPORT_DRAFTING_STARTED",
+      "details": {
+        "evidence_count": 8,
+        "tools_enabled": false
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.385826+00:00",
+      "event_type": "MODEL_REQUEST",
+      "details": {
+        "round": 10,
+        "phase": "REPORT_DRAFTING",
+        "tool_count": 0
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.385828+00:00",
+      "event_type": "MODEL_REQUEST_PREPARATION",
+      "details": {
+        "round": 10,
+        "phase": "REPORT_DRAFTING",
+        "message_count": 22,
+        "tool_count": 0,
+        "instruction_characters": 3389
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:15:45.386047+00:00",
+      "event_type": "MODEL_INPUT_ESTIMATE",
+      "details": {
+        "round": 10,
+        "phase": "REPORT_DRAFTING",
+        "estimated_input_tokens": 19249
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:16:06.678742+00:00",
+      "event_type": "MODEL_USAGE",
+      "details": {
+        "round": 10,
+        "phase": "REPORT_DRAFTING",
+        "response_id": "resp_05dbeb6a67f47615016ada8b11880c87d2a7381ed99d683e13",
+        "input_tokens": 13615,
+        "output_tokens": 2342,
+        "estimated_cost_usd": "0.0025325"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:16:06.679524+00:00",
+      "event_type": "DRAFT_REPORT_CREATED",
+      "details": {
+        "response_id": "resp_05dbeb6a67f47615016ada8b11880c87d2a7381ed99d683e13",
+        "evidence_count": 8,
+        "incomplete_evidence": true
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-22T22:16:06.679532+00:00",
+      "event_type": "STATUS_CHANGE",
+      "details": {
+        "status": "REQUIRES_REVIEW"
+      }
+    }
+  ],
+  "evidence": [
+    {
+      "tool_name": "get_risk_metrics",
+      "result": {
+        "tool": "get_risk_metrics",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "status": "SUCCESS",
+        "data": {
+          "date": "2025-04-04",
+          "portfolio_id": "PORT_001",
+          "nav_usd": 136832037.812,
+          "cash_usd": 0.0,
+          "daily_pnl_usd": -5024511.52904,
+          "daily_return": -0.035419665516619,
+          "var_99_usd": 2534135.686030712,
+          "es_99_usd": 3304944.0779780946,
+          "var_99_pct_nav": 0.0185200463762184,
+          "es_99_pct_nav": 0.0241532913696638,
+          "var_available_observations": 252,
+          "var_required_observations": 252,
+          "es_available_observations": 252,
+          "es_required_observations": 252,
+          "prior_var_99_usd": 2493863.089849448,
+          "prior_var_available_observations": 252.0,
+          "pnl_loss_to_prior_var": 2.0147503483614755,
+          "annualized_volatility": 0.1539373374644476,
+          "drawdown": -0.1152616764741722,
+          "equity_exposure_usd": 79672871.40172556,
+          "equity_exposure_pct": 0.5822676668105453,
+          "rates_exposure_usd": 38649385.02342269,
+          "rates_exposure_pct": 0.2824585940649726,
+          "credit_exposure_usd": 18509781.38730851,
+          "credit_exposure_pct": 0.1352737391278201,
+          "largest_position_weight": 0.3340519834012818,
+          "largest_position_symbol": "QQQ",
+          "equity_beta_spy": 0.698427780262464
+        },
+        "source": "data/outputs/daily_risk_metrics.csv"
+      }
+    },
+    {
+      "tool_name": "retrieve_risk_policy",
+      "result": {
+        "tool": "retrieve_risk_policy",
+        "status": "SUCCESS",
+        "portfolio_id": "PORT_001",
+        "policy_version": "1.1",
+        "policy_type": "illustrative_internal_limits",
+        "query": {
+          "rule_id": "PNL_VAR_EXCEEDANCE",
+          "metric": "pnl_loss_to_prior_var"
+        },
+        "summary": {
+          "total_policy_rules": 6,
+          "matched_rule_count": 1
+        },
+        "rules": [
+          {
+            "rule_id": "PNL_VAR_EXCEEDANCE",
+            "metric": "pnl_loss_to_prior_var",
+            "label": "Daily P&L Loss / Prior-Day 99% VaR",
+            "direction": "max",
+            "warning_threshold": 0.8,
+            "breach_threshold": 1.0,
+            "unit": "ratio",
+            "severity": "HIGH",
+            "status_boundaries": {
+              "pass": {
+                "operator": "<",
+                "threshold": 0.8
+              },
+              "warning": {
+                "lower_operator": ">=",
+                "lower_threshold": 0.8,
+                "upper_operator": "<=",
+                "upper_threshold": 1.0
+              },
+              "breach": {
+                "operator": ">",
+                "threshold": 1.0
+              }
+            },
+            "source_reference": {
+              "policy_path": "config/risk_limits.yaml",
+              "policy_version": "1.1",
+              "rule_id": "PNL_VAR_EXCEEDANCE",
+              "sha256": "f6bc775cfcee97ee8aa64908a514047972d13685d437d939c6a8a772ae0720e8"
+            }
+          }
+        ],
+        "policy_source": {
+          "path": "config/risk_limits.yaml",
+          "sha256": "f6bc775cfcee97ee8aa64908a514047972d13685d437d939c6a8a772ae0720e8"
+        },
+        "methodology": {
+          "validation": "Uses the existing load_risk_policy function from exception_detector.py",
+          "boundary_semantics": "Breach uses strict inequality; warning includes both threshold boundaries",
+          "evaluation": "No metric evaluation or exception detection is performed"
+        },
+        "limitations": [
+          "Configured policy is illustrative, not evidence of institutional approval.",
+          "Policy version is metadata, not proof of historical effective dates.",
+          "No escalation workflow or approval requirements are inferred.",
+          "The tool does not determine whether a risk metric is currently in breach."
+        ]
+      }
+    },
+    {
+      "tool_name": "get_pnl_attribution",
+      "result": {
+        "tool": "get_pnl_attribution",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "status": "SUCCESS",
+        "analysis_window": {
+          "start_date": "2025-03-31",
+          "end_date": "2025-04-04",
+          "trading_days": 5,
+          "beginning_nav_usd": 144378131.906,
+          "ending_nav_usd": 136832037.812
+        },
+        "summary": {
+          "portfolio_pnl_usd": -7546094.093599137,
+          "portfolio_return": -0.05226618459443816,
+          "portfolio_return_bps": -522.6618459443816,
+          "reported_cumulative_pnl_usd": -7546094.093592,
+          "nav_change_usd": -7546094.093999982,
+          "reconciliation_difference_usd": -7.136724889278412e-06,
+          "reconciliation_status": "PASS"
+        },
+        "instrument_attribution": [
+          {
+            "instrument_id": "QQQ",
+            "asset_class": "Equity",
+            "pnl_usd": -5003808.430164903,
+            "contribution_bps": -346.5766154546676
+          },
+          {
+            "instrument_id": "SPY",
+            "asset_class": "Equity",
+            "pnl_usd": -3386428.8394201486,
+            "contribution_bps": -234.5527535724693
+          },
+          {
+            "instrument_id": "HYG",
+            "asset_class": "Credit",
+            "pnl_usd": -180902.52452321743,
+            "contribution_bps": -12.529773182063147
+          },
+          {
+            "instrument_id": "LQD",
+            "asset_class": "Credit",
+            "pnl_usd": 66738.68432013606,
+            "contribution_bps": 4.622492578279617
+          },
+          {
+            "instrument_id": "IEF",
+            "asset_class": "Rates",
+            "pnl_usd": 390504.4758553704,
+            "contribution_bps": 27.04734232948903
+          },
+          {
+            "instrument_id": "TLT",
+            "asset_class": "Rates",
+            "pnl_usd": 567802.5403336259,
+            "contribution_bps": 39.327461357049835
+          }
+        ],
+        "asset_class_attribution": [
+          {
+            "asset_class": "Equity",
+            "pnl_usd": -8390237.269585053,
+            "contribution_bps": -581.129369027137
+          },
+          {
+            "asset_class": "Rates",
+            "pnl_usd": 958307.0161889963,
+            "contribution_bps": 66.37480368653887
+          },
+          {
+            "asset_class": "Credit",
+            "pnl_usd": -114163.84020308137,
+            "contribution_bps": -7.90728060378353
+          }
+        ],
+        "largest_loss_contributors": [
+          {
+            "instrument_id": "QQQ",
+            "asset_class": "Equity",
+            "pnl_usd": -5003808.430164903,
+            "contribution_bps": -346.5766154546676
+          },
+          {
+            "instrument_id": "SPY",
+            "asset_class": "Equity",
+            "pnl_usd": -3386428.8394201486,
+            "contribution_bps": -234.5527535724693
+          },
+          {
+            "instrument_id": "HYG",
+            "asset_class": "Credit",
+            "pnl_usd": -180902.52452321743,
+            "contribution_bps": -12.529773182063147
+          }
+        ],
+        "largest_gain_contributors": [
+          {
+            "instrument_id": "TLT",
+            "asset_class": "Rates",
+            "pnl_usd": 567802.5403336259,
+            "contribution_bps": 39.327461357049835
+          },
+          {
+            "instrument_id": "IEF",
+            "asset_class": "Rates",
+            "pnl_usd": 390504.4758553704,
+            "contribution_bps": 27.04734232948903
+          },
+          {
+            "instrument_id": "LQD",
+            "asset_class": "Credit",
+            "pnl_usd": 66738.68432013606,
+            "contribution_bps": 4.622492578279617
+          }
+        ],
+        "daily_attribution": [
+          {
+            "date": "2025-03-31",
+            "calculated_pnl_usd": 505327.4779069072,
+            "reported_pnl_usd": 505327.477907,
+            "reconciliation_difference_usd": -9.278301149606705e-08,
+            "instrument_contributions": [
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "pnl_usd": -2166.8284618352936
+              },
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "pnl_usd": 9768.053013808694
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "pnl_usd": 19495.795557473102
+              },
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "pnl_usd": 61471.44778388667
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "pnl_usd": 166024.42056608948
+              },
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "pnl_usd": 250734.58944748458
+              }
+            ],
+            "reconciliation_status": "PASS"
+          },
+          {
+            "date": "2025-04-01",
+            "calculated_pnl_usd": 791612.1080401414,
+            "reported_pnl_usd": 791612.10804,
+            "reconciliation_difference_usd": 1.414446160197258e-07,
+            "instrument_contributions": [
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "pnl_usd": 19854.135662343124
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "pnl_usd": 36063.14589807607
+              },
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "pnl_usd": 73559.0806851761
+              },
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "pnl_usd": 106198.72340282731
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "pnl_usd": 147157.52291448702
+              },
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "pnl_usd": 408779.4994772317
+              }
+            ],
+            "reconciliation_status": "PASS"
+          },
+          {
+            "date": "2025-04-02",
+            "calculated_pnl_usd": 621414.9499711543,
+            "reported_pnl_usd": 621414.949971,
+            "reconciliation_difference_usd": 1.5436671674251556e-07,
+            "instrument_contributions": [
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "pnl_usd": -19823.005358717837
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "pnl_usd": -11230.587310739704
+              },
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "pnl_usd": 17450.740296767322
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "pnl_usd": 23295.003514304703
+              },
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "pnl_usd": 238622.85504398975
+              },
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "pnl_usd": 373099.94378555
+              }
+            ],
+            "reconciliation_status": "PASS"
+          },
+          {
+            "date": "2025-04-03",
+            "calculated_pnl_usd": -4439937.100471381,
+            "reported_pnl_usd": -4439937.10047,
+            "reconciliation_difference_usd": -1.3811513781547546e-06,
+            "instrument_contributions": [
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "pnl_usd": -2756578.0107046934
+              },
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "pnl_usd": -1869995.0675811043
+              },
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "pnl_usd": -106897.02891216865
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "pnl_usd": -932.4705534989486
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "pnl_usd": 78633.97751614454
+              },
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "pnl_usd": 215831.49976393973
+              }
+            ],
+            "reconciliation_status": "PASS"
+          },
+          {
+            "date": "2025-04-04",
+            "calculated_pnl_usd": -5024511.529045959,
+            "reported_pnl_usd": -5024511.52904,
+            "reconciliation_difference_usd": -5.9586018323898315e-06,
+            "instrument_contributions": [
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "pnl_usd": -3026943.0342611563
+              },
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "pnl_usd": -2111989.939733346
+              },
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "pnl_usd": -121078.42458396792
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "pnl_usd": -11182.790096218867
+              },
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "pnl_usd": 59465.45298108575
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "pnl_usd": 187217.20664764452
+              }
+            ],
+            "reconciliation_status": "PASS"
+          }
+        ],
+        "methodology": {
+          "daily_holding_pnl": "Previous closing quantity multiplied by current minus previous adjusted closing price",
+          "multi_day_pnl": "Sum of daily instrument P&L using the holdings applicable to each trading day",
+          "contribution_bps": "Instrument P&L / beginning NAV * 10000",
+          "portfolio_return": "Cumulative P&L / beginning NAV; assumes no external cash flows"
+        },
+        "data_sources": [
+          "data/sample/daily_positions.csv",
+          "data/sample/daily_portfolio.csv",
+          "data/sample/adjusted_prices.csv"
+        ],
+        "limitations": [
+          "Adjusted prices represent synthetic total-return units.",
+          "Same-day trades occur at closing prices and affect subsequent holding P&L.",
+          "No intraday execution or realized trading P&L is calculated separately.",
+          "The model assumes zero fees and no external cash flows.",
+          "Asset-class attribution uses ETF exposure categories, not factor sensitivities such as DV01 or CS01."
+        ]
+      }
+    },
+    {
+      "tool_name": "analyze_positions",
+      "result": {
+        "tool": "analyze_positions",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "status": "SUCCESS",
+        "nav_usd": 136832037.812,
+        "largest_position": {
+          "instrument_id": "QQQ",
+          "asset_class": "Equity",
+          "quantity": 108899.746648,
+          "market_value_usd": 45709013.6239,
+          "weight": 0.3340519834010056
+        },
+        "positions": [
+          {
+            "instrument_id": "QQQ",
+            "asset_class": "Equity",
+            "quantity": 108899.746648,
+            "market_value_usd": 45709013.6239,
+            "weight": 0.3340519834010056
+          },
+          {
+            "instrument_id": "SPY",
+            "asset_class": "Equity",
+            "quantity": 68332.8705878,
+            "market_value_usd": 33963857.7778,
+            "weight": 0.2482156834093529
+          },
+          {
+            "instrument_id": "IEF",
+            "asset_class": "Rates",
+            "quantity": 233507.770003,
+            "market_value_usd": 21266006.8313,
+            "weight": 0.1554168685298568
+          },
+          {
+            "instrument_id": "TLT",
+            "asset_class": "Rates",
+            "quantity": 200301.475066,
+            "market_value_usd": 17383378.1922,
+            "weight": 0.1270417255356808
+          },
+          {
+            "instrument_id": "LQD",
+            "asset_class": "Credit",
+            "quantity": 99853.5777461,
+            "market_value_usd": 10136784.4394,
+            "weight": 0.07408195186954247
+          },
+          {
+            "instrument_id": "HYG",
+            "asset_class": "Credit",
+            "quantity": 119099.371609,
+            "market_value_usd": 8372996.94797,
+            "weight": 0.06119178725872705
+          }
+        ],
+        "analysis": {
+          "asset_class_exposures": [
+            {
+              "asset_class": "Equity",
+              "market_value_usd": 79672871.40169999,
+              "weight": 0.5822676668103585
+            },
+            {
+              "asset_class": "Rates",
+              "market_value_usd": 38649385.0235,
+              "weight": 0.2824585940655376
+            },
+            {
+              "asset_class": "Credit",
+              "market_value_usd": 18509781.38737,
+              "weight": 0.13527373912826954
+            }
+          ],
+          "concentration": {
+            "largest_position": "QQQ",
+            "largest_weight": 0.3340519834010056,
+            "top_two_weight": 0.5822676668103586,
+            "hhi": 0.2227283265759464
+          },
+          "historical_weight_changes": {
+            "5d": {
+              "SPY": -0.010481988628110395,
+              "QQQ": -0.017198038915514635,
+              "IEF": 0.01082778097336054,
+              "TLT": 0.010572732413868649,
+              "LQD": 0.004334230230116587,
+              "HYG": 0.0019452839305140815
+            },
+            "20d": {
+              "SPY": -0.012723076785751852,
+              "QQQ": -0.02497661286493541,
+              "IEF": 0.015321380905739979,
+              "TLT": 0.013393362498346745,
+              "LQD": 0.006101116559974029,
+              "HYG": 0.002883829689507643
+            }
+          },
+          "daily_weight_bridge": {
+            "SPY": {
+              "previous_weight": 0.2543121758220741,
+              "pre_trade_weight": 0.248215683408435,
+              "current_weight": 0.2482156834093529,
+              "market_effect": -0.006096492413639104,
+              "trade_effect": 9.179046411844638e-13,
+              "total_change": -0.0060964924127211995
+            },
+            "QQQ": {
+              "previous_weight": 0.34355803016923564,
+              "pre_trade_weight": 0.3340519834001667,
+              "current_weight": 0.3340519834010056,
+              "market_effect": -0.009506046769068965,
+              "trade_effect": 8.389400285579995e-13,
+              "total_change": -0.009506046768230025
+            },
+            "IEF": {
+              "previous_weight": 0.14949286075814236,
+              "pre_trade_weight": 0.15541686852894152,
+              "current_weight": 0.1554168685298568,
+              "market_effect": 0.005924007770799156,
+              "trade_effect": 9.152956170765947e-13,
+              "total_change": 0.005924007771714451
+            },
+            "TLT": {
+              "previous_weight": 0.12122218583078975,
+              "pre_trade_weight": 0.1270417255350882,
+              "current_weight": 0.1270417255356808,
+              "market_effect": 0.005819539704298438,
+              "trade_effect": 5.926092949692929e-13,
+              "total_change": 0.005819539704891047
+            },
+            "LQD": {
+              "previous_weight": 0.07153682559308382,
+              "pre_trade_weight": 0.07408195186891213,
+              "current_weight": 0.07408195186954247,
+              "market_effect": 0.0025451262758283133,
+              "trade_effect": 6.303430000187404e-13,
+              "total_change": 0.0025451262764586563
+            },
+            "HYG": {
+              "previous_weight": 0.059877921830218214,
+              "pre_trade_weight": 0.06119178725845644,
+              "current_weight": 0.06119178725872705,
+              "market_effect": 0.001313865428238227,
+              "trade_effect": 2.70609923358478e-13,
+              "total_change": 0.001313865428508837
+            }
+          }
+        },
+        "methodology": {
+          "weight": "market_value / portfolio_nav",
+          "hhi": "sum of squared instrument weights",
+          "daily_bridge": "Previous closing weights -> current-price revaluation of prior holdings -> current closing weights",
+          "change_units": "Decimal weight changes; multiply by 100 for percentage points"
+        },
+        "data_sources": [
+          "data/sample/daily_positions.csv",
+          "data/sample/daily_portfolio.csv",
+          "data/sample/adjusted_prices.csv"
+        ],
+        "limitations": [
+          "ETF categories are exposure proxies, not DV01 or CS01.",
+          "The market/trade bridge uses a sequential market-first convention.",
+          "Adjusted prices represent synthetic total-return units rather than executable market prices."
+        ]
+      }
+    },
+    {
+      "tool_name": "analyze_transactions",
+      "result": {
+        "tool": "analyze_transactions",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "status": "SUCCESS",
+        "analysis_window": {
+          "start_date": "2025-03-31",
+          "end_date": "2025-04-04",
+          "trading_days": 5
+        },
+        "summary": {
+          "trade_count": 0,
+          "buy_notional_usd": 0.0,
+          "sell_notional_usd": 0.0,
+          "gross_notional_usd": 0.0,
+          "net_cash_flow_usd": 0.0,
+          "total_fees_usd": 0.0,
+          "trade_dates": 0
+        },
+        "transactions": [],
+        "instrument_summary": [],
+        "daily_reconciliations": [],
+        "methodology": {
+          "cash_flow": "SELL notional - BUY notional - transaction fees",
+          "quantity_reconciliation": "Previous closing quantity + signed traded quantity = current closing quantity",
+          "weight_effects": "Market-first sequential bridge from analyze_positions"
+        },
+        "data_sources": [
+          "data/sample/transactions.csv",
+          "data/sample/daily_positions.csv",
+          "data/sample/daily_portfolio.csv",
+          "data/sample/adjusted_prices.csv"
+        ],
+        "limitations": [
+          "Transactions use synthetic adjusted-price execution.",
+          "Trades are assumed to affect closing holdings.",
+          "No external cash flows are modeled.",
+          "Trade effects describe position-weight changes, not realized trading P&L."
+        ]
+      }
+    },
+    {
+      "tool_name": "get_var_attribution",
+      "result": {
+        "tool": "get_var_attribution",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "status": "SUCCESS",
+        "summary": {
+          "var_99_usd": 2534135.686029565,
+          "es_99_usd": 3304944.0779774687,
+          "var_99_pct_nav": 0.018520046376210034,
+          "es_99_pct_nav": 0.024153291369659255,
+          "historical_observations": 252,
+          "tail_scenario_count": 3,
+          "attribution_available": true
+        },
+        "instrument_attribution": [
+          {
+            "instrument_id": "QQQ",
+            "asset_class": "Equity",
+            "market_value_usd": 45709013.6239,
+            "es_contribution_usd": 1911871.4759322165,
+            "es_contribution_pct_nav": 0.013972396424871103,
+            "share_of_portfolio_es": 0.5784882983866484
+          },
+          {
+            "instrument_id": "SPY",
+            "asset_class": "Equity",
+            "market_value_usd": 33963857.7778,
+            "es_contribution_usd": 1151901.15252814,
+            "es_contribution_pct_nav": 0.008418358528802964,
+            "share_of_portfolio_es": 0.3485387726236719
+          },
+          {
+            "instrument_id": "TLT",
+            "asset_class": "Rates",
+            "market_value_usd": 17383378.1922,
+            "es_contribution_usd": 108463.01327735902,
+            "es_contribution_pct_nav": 0.0007926726445920616,
+            "share_of_portfolio_es": 0.03281841105878417
+          },
+          {
+            "instrument_id": "HYG",
+            "asset_class": "Credit",
+            "market_value_usd": 8372996.94797,
+            "es_contribution_usd": 72258.70749140467,
+            "es_contribution_pct_nav": 0.0005280832518966378,
+            "share_of_portfolio_es": 0.021863821531172452
+          },
+          {
+            "instrument_id": "LQD",
+            "asset_class": "Credit",
+            "market_value_usd": 10136784.4394,
+            "es_contribution_usd": 62804.87609379142,
+            "es_contribution_pct_nav": 0.0004589924779172112,
+            "share_of_portfolio_es": 0.019003309772256786
+          },
+          {
+            "instrument_id": "IEF",
+            "asset_class": "Rates",
+            "market_value_usd": 21266006.8313,
+            "es_contribution_usd": -2355.147345442325,
+            "es_contribution_pct_nav": -1.7211958420718492e-05,
+            "share_of_portfolio_es": -0.0007126133725335552
+          }
+        ],
+        "asset_class_attribution": [
+          {
+            "asset_class": "Equity",
+            "es_contribution_usd": 3063772.6284603565,
+            "share_of_portfolio_es": 0.9270270710103203
+          },
+          {
+            "asset_class": "Rates",
+            "es_contribution_usd": 106107.86593191669,
+            "share_of_portfolio_es": 0.03210579768625062
+          },
+          {
+            "asset_class": "Credit",
+            "es_contribution_usd": 135063.5835851961,
+            "share_of_portfolio_es": 0.040867131303429234
+          }
+        ],
+        "worst_historical_scenarios": [
+          {
+            "historical_date": "2025-04-03",
+            "portfolio_loss_usd": 3927203.5433391593,
+            "instrument_losses_usd": {
+              "SPY": 1673760.3347012084,
+              "QQQ": 2446965.6166049205,
+              "IEF": -218662.16888123014,
+              "TLT": -79855.2366402116,
+              "LQD": 931.3574157112525,
+              "HYG": 104063.64013876132
+            },
+            "is_es_tail": true
+          },
+          {
+            "historical_date": "2024-12-18",
+            "portfolio_loss_usd": 3254675.267638863,
+            "instrument_losses_usd": {
+              "SPY": 1012237.7326695535,
+              "QQQ": 1649049.409427335,
+              "IEF": 164376.80688530687,
+              "TLT": 217361.03792575293,
+              "LQD": 125675.61626066414,
+              "HYG": 85974.66447025131
+            },
+            "is_es_tail": true
+          },
+          {
+            "historical_date": "2024-07-24",
+            "portfolio_loss_usd": 2732953.4229543842,
+            "instrument_losses_usd": {
+              "SPY": 769705.3902136579,
+              "QQQ": 1639599.401764394,
+              "IEF": 47219.9199595963,
+              "TLT": 187883.23854653575,
+              "LQD": 61807.654604998854,
+              "HYG": 26737.81786520139
+            },
+            "is_es_tail": true
+          },
+          {
+            "historical_date": "2025-03-10",
+            "portfolio_loss_usd": 2343114.7231017905,
+            "instrument_losses_usd": {
+              "SPY": 904648.7082352672,
+              "QQQ": 1771514.6998950534,
+              "IEF": -148699.90984498063,
+              "TLT": -181340.141782134,
+              "LQD": -34626.22659752725,
+              "HYG": 31617.59319611111
+            },
+            "is_es_tail": false
+          },
+          {
+            "historical_date": "2024-08-05",
+            "portfolio_loss_usd": 2315671.4521437185,
+            "instrument_losses_usd": {
+              "SPY": 989156.139419835,
+              "QQQ": 1362870.5029075406,
+              "IEF": -21771.766289592168,
+              "TLT": -91973.65373733574,
+              "LQD": 25663.5011827837,
+              "HYG": 51726.72866048714
+            },
+            "is_es_tail": false
+          },
+          {
+            "historical_date": "2025-02-27",
+            "portfolio_loss_usd": 2017281.611376253,
+            "instrument_losses_usd": {
+              "SPY": 542126.8317544743,
+              "QQQ": 1269394.4688710899,
+              "IEF": 24650.768099363235,
+              "TLT": 122873.01462771012,
+              "LQD": 42547.17897282686,
+              "HYG": 15689.349050788733
+            },
+            "is_es_tail": false
+          },
+          {
+            "historical_date": "2025-03-06",
+            "portfolio_loss_usd": 1992274.0029015853,
+            "instrument_losses_usd": {
+              "SPY": 602894.066936364,
+              "QQQ": 1257426.8632783485,
+              "IEF": 11238.477768917173,
+              "TLT": 57497.50800884218,
+              "LQD": 31667.00527661121,
+              "HYG": 31550.081632502264
+            },
+            "is_es_tail": false
+          },
+          {
+            "historical_date": "2024-10-31",
+            "portfolio_loss_usd": 1846239.029189594,
+            "instrument_losses_usd": {
+              "SPY": 665796.9646240621,
+              "QQQ": 1153815.2857172654,
+              "IEF": 11244.557613496494,
+              "TLT": -28249.114017429853,
+              "LQD": 20420.467501237625,
+              "HYG": 23210.86775096242
+            },
+            "is_es_tail": false
+          },
+          {
+            "historical_date": "2024-07-17",
+            "portfolio_loss_usd": 1801400.3730317955,
+            "instrument_losses_usd": {
+              "SPY": 476218.9880034455,
+              "QQQ": 1341791.1503181062,
+              "IEF": -17901.959960059736,
+              "TLT": -3692.0733072948988,
+              "LQD": -4640.3777556016075,
+              "HYG": 9624.645733199988
+            },
+            "is_es_tail": false
+          },
+          {
+            "historical_date": "2024-09-06",
+            "portfolio_loss_usd": 1782542.4109656648,
+            "instrument_losses_usd": {
+              "SPY": 571609.9333431172,
+              "QQQ": 1224422.7150680188,
+              "IEF": -30314.58971241978,
+              "TLT": 1747.614620402267,
+              "LQD": 4509.85780642431,
+              "HYG": 10566.87984012173
+            },
+            "is_es_tail": false
+          }
+        ],
+        "tail_scenario_diagnostics": [
+          {
+            "historical_date": "2025-04-03",
+            "portfolio_loss_usd": 3927203.5433391593,
+            "instrument_losses_usd": {
+              "SPY": 1673760.3347012084,
+              "QQQ": 2446965.6166049205,
+              "IEF": -218662.16888123014,
+              "TLT": -79855.2366402116,
+              "LQD": 931.3574157112525,
+              "HYG": 104063.64013876132
+            },
+            "instrument_returns": {
+              "SPY": -0.04928063077084366,
+              "QQQ": -0.0535335467253546,
+              "IEF": 0.01028223919120519,
+              "TLT": 0.004593769735507625,
+              "LQD": -9.187898009266338e-05,
+              "HYG": -0.01242848179515832
+            },
+            "reconciliation_difference_usd": 4.656612873077393e-10
+          },
+          {
+            "historical_date": "2024-12-18",
+            "portfolio_loss_usd": 3254675.267638863,
+            "instrument_losses_usd": {
+              "SPY": 1012237.7326695535,
+              "QQQ": 1649049.409427335,
+              "IEF": 164376.80688530687,
+              "TLT": 217361.03792575293,
+              "LQD": 125675.61626066414,
+              "HYG": 85974.66447025131
+            },
+            "instrument_returns": {
+              "SPY": -0.029803379206563174,
+              "QQQ": -0.03607711649601408,
+              "IEF": -0.007729556761139178,
+              "TLT": -0.012503958409147642,
+              "LQD": -0.012397976598198523,
+              "HYG": -0.010268087401022585
+            },
+            "reconciliation_difference_usd": 9.313225746154785e-10
+          },
+          {
+            "historical_date": "2024-07-24",
+            "portfolio_loss_usd": 2732953.4229543842,
+            "instrument_losses_usd": {
+              "SPY": 769705.3902136579,
+              "QQQ": 1639599.401764394,
+              "IEF": 47219.9199595963,
+              "TLT": 187883.23854653575,
+              "LQD": 61807.654604998854,
+              "HYG": 26737.81786520139
+            },
+            "instrument_returns": {
+              "SPY": -0.0226624841986226,
+              "QQQ": -0.03587037373536961,
+              "IEF": -0.0022204413049513594,
+              "TLT": -0.010808212101767412,
+              "LQD": -0.006097363022218638,
+              "HYG": -0.003193339019630703
+            },
+            "reconciliation_difference_usd": 0.0
+          }
+        ],
+        "concentration_diagnostics": [
+          {
+            "instrument_id": "QQQ",
+            "asset_class": "Equity",
+            "portfolio_weight": 0.3340519834010056,
+            "es_contribution_share": 0.5784882983866484,
+            "es_share_minus_weight": 0.24443631498564278,
+            "es_to_weight_ratio": 1.7317313685643183
+          },
+          {
+            "instrument_id": "SPY",
+            "asset_class": "Equity",
+            "portfolio_weight": 0.2482156834093529,
+            "es_contribution_share": 0.3485387726236719,
+            "es_share_minus_weight": 0.10032308921431898,
+            "es_to_weight_ratio": 1.4041770763085422
+          },
+          {
+            "instrument_id": "HYG",
+            "asset_class": "Credit",
+            "portfolio_weight": 0.06119178725872705,
+            "es_contribution_share": 0.021863821531172452,
+            "es_share_minus_weight": -0.0393279657275546,
+            "es_to_weight_ratio": 0.3572999337105369
+          },
+          {
+            "instrument_id": "LQD",
+            "asset_class": "Credit",
+            "portfolio_weight": 0.07408195186954247,
+            "es_contribution_share": 0.019003309772256786,
+            "es_share_minus_weight": -0.05507864209728569,
+            "es_to_weight_ratio": 0.2565174012385825
+          },
+          {
+            "instrument_id": "TLT",
+            "asset_class": "Rates",
+            "portfolio_weight": 0.1270417255356808,
+            "es_contribution_share": 0.03281841105878417,
+            "es_share_minus_weight": -0.09422331447689664,
+            "es_to_weight_ratio": 0.2583278125387775
+          },
+          {
+            "instrument_id": "IEF",
+            "asset_class": "Rates",
+            "portfolio_weight": 0.1554168685298568,
+            "es_contribution_share": -0.0007126133725335552,
+            "es_share_minus_weight": -0.15612948190239037,
+            "es_to_weight_ratio": -0.004585173921430906
+          }
+        ],
+        "leave_one_out_sensitivity": {
+          "status": "SUCCESS",
+          "method": "Leave-one-selected-tail-scenario-out",
+          "results": [
+            {
+              "excluded_scenario_date": "2024-07-24",
+              "remaining_scenario_count": 2,
+              "conditional_mean_loss_usd": 3590939.4054890117,
+              "instrument_contributions_usd": {
+                "SPY": 1342999.033685381,
+                "QQQ": 2048007.5130161277,
+                "IEF": -27142.680997961637,
+                "TLT": 68752.90064277066,
+                "LQD": 63303.4868381877,
+                "HYG": 95019.15230450631
+              }
+            },
+            {
+              "excluded_scenario_date": "2024-12-18",
+              "remaining_scenario_count": 2,
+              "conditional_mean_loss_usd": 3330078.483146772,
+              "instrument_contributions_usd": {
+                "SPY": 1221732.8624574332,
+                "QQQ": 2043282.5091846571,
+                "IEF": -85721.12446081692,
+                "TLT": 54014.000953162074,
+                "LQD": 31369.506010355053,
+                "HYG": 65400.72900198135
+              }
+            },
+            {
+              "excluded_scenario_date": "2025-04-03",
+              "remaining_scenario_count": 2,
+              "conditional_mean_loss_usd": 2993814.345296624,
+              "instrument_contributions_usd": {
+                "SPY": 890971.5614416057,
+                "QQQ": 1644324.4055958646,
+                "IEF": 105798.36342245158,
+                "TLT": 202622.13823614432,
+                "LQD": 93741.6354328315,
+                "HYG": 56356.24116772635
+              }
+            }
+          ],
+          "minimum_conditional_mean_loss_usd": 2993814.345296624,
+          "maximum_conditional_mean_loss_usd": 3590939.4054890117,
+          "range_usd": 597125.0601923876,
+          "interpretation": "Sensitivity of the selected ES-tail sample to individual scenarios. This is not a re-estimated 99% VaR or ES."
+        },
+        "governance_warnings": [
+          {
+            "code": "SMALL_TAIL_SAMPLE",
+            "severity": "WARNING",
+            "message": "ES attribution is based on only 3 historical tail scenarios. Results may be sensitive to individual observations."
+          }
+        ],
+        "reconciliation": {
+          "reported_var_usd": 2534135.686030712,
+          "reconstructed_var_usd": 2534135.686029565,
+          "var_difference_usd": -1.1469237506389618e-06,
+          "reported_es_usd": 3304944.0779780946,
+          "reconstructed_es_usd": 3304944.0779774687,
+          "es_difference_usd": -6.258487701416016e-07,
+          "sum_es_contributions_usd": 3304944.077977469,
+          "status": "PASS"
+        },
+        "methodology": {
+          "model": "Historical Simulation",
+          "holding_period": "1 trading day",
+          "confidence_level": 0.99,
+          "window": 252,
+          "scenario_positions": "Current closing market values",
+          "scenario_returns": "252 historical ETF daily returns ending before the as-of date",
+          "var_quantile": "99th percentile of portfolio scenario losses, linear interpolation, floored at zero",
+          "es_definition": "Mean of portfolio losses greater than or equal to the calculated VaR threshold",
+          "es_attribution": "Average instrument loss over identical portfolio ES-tail scenarios",
+          "concentration_diagnostics": "Compare each instrument's NAV weight with its share of portfolio ES",
+          "leave_one_out_sensitivity": "Remove one selected portfolio ES-tail scenario at a time and recalculate the conditional mean loss and contributions. This is not a re-estimated VaR or ES."
+        },
+        "data_sources": [
+          "data/sample/daily_positions.csv",
+          "data/sample/adjusted_prices.csv",
+          "data/outputs/daily_risk_metrics.csv"
+        ],
+        "limitations": [
+          "ES contributions are not VaR contributions.",
+          "Historical scenarios assume unchanged current holdings.",
+          "Historical ETF returns are proxies for market risk factors.",
+          "The 252-day historical window may not include earlier extreme market events.",
+          "Tail contributions can be negative when an instrument offsets portfolio losses.",
+          "Linear quantile interpolation and threshold-based ES may differ from fractional-tail ES estimators.",
+          "Leave-one-out sensitivity is conditional on the selected ES-tail scenarios and does not re-estimate the historical VaR/ES model.",
+          "The 20% tail-sensitivity warning threshold is illustrative, not a regulatory limit."
+        ]
+      }
+    },
+    {
+      "tool_name": "analyze_risk_factors",
+      "result": {
+        "tool": "analyze_risk_factors",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "status": "SUCCESS",
+        "summary": {
+          "available_return_observations": 1321,
+          "requested_windows": [
+            5,
+            20
+          ],
+          "evaluated_windows": [
+            5,
+            20
+          ],
+          "scenario_count": 2,
+          "instrument_count": 6
+        },
+        "window_statistics": [
+          {
+            "window": 5,
+            "status": "SUCCESS",
+            "available_observations": 5,
+            "instruments": [
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "cumulative_return": -0.09066674304608835,
+                "mean_daily_return": -0.018391590785724367,
+                "annualized_volatility": 0.5179144923207661,
+                "minimum_daily_return": -0.05854304398528676,
+                "maximum_daily_return": 0.006713056636410641
+              },
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "cumulative_return": -0.09866949279270276,
+                "mean_daily_return": -0.020065138833572083,
+                "annualized_volatility": 0.5515434731005575,
+                "minimum_daily_return": -0.06210903082276786,
+                "maximum_daily_return": 0.008061017899657186
+              },
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "cumulative_return": 0.018706351071572813,
+                "mean_daily_return": 0.00372017914370133,
+                "annualized_volatility": 0.06462587928357805,
+                "minimum_daily_return": -0.0009434794190272822,
+                "maximum_daily_return": 0.01028223919120519
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "cumulative_return": 0.03376646462123256,
+                "mean_daily_return": 0.006672844132170908,
+                "annualized_volatility": 0.07530106127990054,
+                "minimum_daily_return": -0.0006556568535832641,
+                "maximum_daily_return": 0.010887151312737098
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "cumulative_return": 0.006627445986212566,
+                "mean_daily_return": 0.0013234159057111672,
+                "annualized_volatility": 0.02999638714187647,
+                "minimum_daily_return": -0.0011019734143181692,
+                "maximum_daily_return": 0.003574309666823705
+              },
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "cumulative_return": -0.02114854460297766,
+                "mean_daily_return": -0.004237905996068547,
+                "annualized_volatility": 0.132499806052905,
+                "minimum_daily_return": -0.014254456108939828,
+                "maximum_daily_return": 0.002318415048602418
+              }
+            ],
+            "correlation_matrix": {
+              "SPY": {
+                "SPY": 1.0,
+                "QQQ": 0.9919661601787143,
+                "IEF": -0.574190265555927,
+                "TLT": -0.26415779781627124,
+                "LQD": 0.9261698392079091,
+                "HYG": 0.9954925671114485
+              },
+              "QQQ": {
+                "SPY": 0.9919661601787143,
+                "QQQ": 1.0,
+                "IEF": -0.583385382647869,
+                "TLT": -0.2851885907812437,
+                "LQD": 0.9582900595466745,
+                "HYG": 0.9991277375123816
+              },
+              "IEF": {
+                "SPY": -0.574190265555927,
+                "QQQ": -0.583385382647869,
+                "IEF": 1.0,
+                "TLT": 0.17839350844627025,
+                "LQD": -0.40829029953577883,
+                "HYG": -0.5837647676301158
+              },
+              "TLT": {
+                "SPY": -0.26415779781627124,
+                "QQQ": -0.2851885907812437,
+                "IEF": 0.17839350844627025,
+                "TLT": 1.0,
+                "LQD": -0.22296001764325513,
+                "HYG": -0.25798390620575745
+              },
+              "LQD": {
+                "SPY": 0.9261698392079091,
+                "QQQ": 0.9582900595466745,
+                "IEF": -0.40829029953577883,
+                "TLT": -0.22296001764325513,
+                "LQD": 1.0,
+                "HYG": 0.9521262158796694
+              },
+              "HYG": {
+                "SPY": 0.9954925671114485,
+                "QQQ": 0.9991277375123816,
+                "IEF": -0.5837647676301158,
+                "TLT": -0.25798390620575745,
+                "LQD": 0.9521262158796694,
+                "HYG": 1.0
+              }
+            }
+          },
+          {
+            "window": 20,
+            "status": "SUCCESS",
+            "available_observations": 20,
+            "instruments": [
+              {
+                "instrument_id": "SPY",
+                "asset_class": "Equity",
+                "cumulative_return": -0.12001663916444816,
+                "mean_daily_return": -0.006173139133676337,
+                "annualized_volatility": 0.3212874994323406,
+                "minimum_daily_return": -0.05854304398528676,
+                "maximum_daily_return": 0.020655846459771254
+              },
+              {
+                "instrument_id": "QQQ",
+                "asset_class": "Equity",
+                "cumulative_return": -0.13926621532290562,
+                "mean_daily_return": -0.007203114947747458,
+                "annualized_volatility": 0.3724543288812311,
+                "minimum_daily_return": -0.06210903082276786,
+                "maximum_daily_return": 0.02417058216474599
+              },
+              {
+                "instrument_id": "IEF",
+                "asset_class": "Rates",
+                "cumulative_return": 0.02626104261771456,
+                "mean_daily_return": 0.0013049762335859971,
+                "annualized_volatility": 0.06534203437384535,
+                "minimum_daily_return": -0.005788119008390269,
+                "maximum_daily_return": 0.01028223919120519
+              },
+              {
+                "instrument_id": "TLT",
+                "asset_class": "Rates",
+                "cumulative_return": 0.034110708666576395,
+                "mean_daily_return": 0.0017032499217017939,
+                "annualized_volatility": 0.11469561891387148,
+                "minimum_daily_return": -0.010253495542109192,
+                "maximum_daily_return": 0.013834222799474771
+              },
+              {
+                "instrument_id": "LQD",
+                "asset_class": "Credit",
+                "cumulative_return": 0.008114255236429502,
+                "mean_daily_return": 0.00040955200926723334,
+                "annualized_volatility": 0.053497166506944104,
+                "minimum_daily_return": -0.0065324137301937535,
+                "maximum_daily_return": 0.0060279334417534525
+              },
+              {
+                "instrument_id": "HYG",
+                "asset_class": "Credit",
+                "cumulative_return": -0.029156683551914808,
+                "mean_daily_return": -0.0014660090050983622,
+                "annualized_volatility": 0.08093130647392809,
+                "minimum_daily_return": -0.014254456108939828,
+                "maximum_daily_return": 0.006588279961292409
+              }
+            ],
+            "correlation_matrix": {
+              "SPY": {
+                "SPY": 1.0,
+                "QQQ": 0.9828120045737466,
+                "IEF": -0.6272436231344797,
+                "TLT": -0.48214052247645245,
+                "LQD": -0.02600276133862027,
+                "HYG": 0.9440000712863734
+              },
+              "QQQ": {
+                "SPY": 0.9828120045737466,
+                "QQQ": 1.0,
+                "IEF": -0.6706560153227528,
+                "TLT": -0.5408862560115838,
+                "LQD": -0.10308510804782044,
+                "HYG": 0.9142625884525034
+              },
+              "IEF": {
+                "SPY": -0.6272436231344797,
+                "QQQ": -0.6706560153227528,
+                "IEF": 1.0,
+                "TLT": 0.8476461942351429,
+                "LQD": 0.6793744058361816,
+                "HYG": -0.44391139281728537
+              },
+              "TLT": {
+                "SPY": -0.48214052247645245,
+                "QQQ": -0.5408862560115838,
+                "IEF": 0.8476461942351429,
+                "TLT": 1.0,
+                "LQD": 0.7792554172313217,
+                "HYG": -0.28050787595126553
+              },
+              "LQD": {
+                "SPY": -0.02600276133862027,
+                "QQQ": -0.10308510804782044,
+                "IEF": 0.6793744058361816,
+                "TLT": 0.7792554172313217,
+                "LQD": 1.0,
+                "HYG": 0.21346572815888762
+              },
+              "HYG": {
+                "SPY": 0.9440000712863734,
+                "QQQ": 0.9142625884525034,
+                "IEF": -0.44391139281728537,
+                "TLT": -0.28050787595126553,
+                "LQD": 0.21346572815888762,
+                "HYG": 1.0
+              }
+            }
+          }
+        ],
+        "volatility_change": {
+          "status": "SUCCESS",
+          "instruments": [
+            {
+              "instrument_id": "SPY",
+              "previous_20d_annualized_volatility": 0.15884269305126242,
+              "recent_20d_annualized_volatility": 0.3212874994323406,
+              "absolute_change": 0.16244480638107817,
+              "relative_change": 1.022677236583072
+            },
+            {
+              "instrument_id": "QQQ",
+              "previous_20d_annualized_volatility": 0.21616609696461447,
+              "recent_20d_annualized_volatility": 0.3724543288812311,
+              "absolute_change": 0.15628823191661662,
+              "relative_change": 0.7230006652810148
+            },
+            {
+              "instrument_id": "IEF",
+              "previous_20d_annualized_volatility": 0.06930958848724168,
+              "recent_20d_annualized_volatility": 0.06534203437384535,
+              "absolute_change": -0.003967554113396332,
+              "relative_change": -0.05724394272123934
+            },
+            {
+              "instrument_id": "TLT",
+              "previous_20d_annualized_volatility": 0.149180825345905,
+              "recent_20d_annualized_volatility": 0.11469561891387148,
+              "absolute_change": -0.03448520643203351,
+              "relative_change": -0.23116379971804557
+            },
+            {
+              "instrument_id": "LQD",
+              "previous_20d_annualized_volatility": 0.06427887271287502,
+              "recent_20d_annualized_volatility": 0.053497166506944104,
+              "absolute_change": -0.01078170620593092,
+              "relative_change": -0.16773328079494076
+            },
+            {
+              "instrument_id": "HYG",
+              "previous_20d_annualized_volatility": 0.03411090995804024,
+              "recent_20d_annualized_volatility": 0.08093130647392809,
+              "absolute_change": 0.04682039651588785,
+              "relative_change": 1.372593008321429
+            }
+          ]
+        },
+        "equity_rates_correlations": [
+          {
+            "window": 5,
+            "pairs": [
+              {
+                "equity_instrument": "SPY",
+                "rates_instrument": "IEF",
+                "correlation": -0.574190265555927
+              },
+              {
+                "equity_instrument": "SPY",
+                "rates_instrument": "TLT",
+                "correlation": -0.26415779781627124
+              },
+              {
+                "equity_instrument": "QQQ",
+                "rates_instrument": "IEF",
+                "correlation": -0.583385382647869
+              },
+              {
+                "equity_instrument": "QQQ",
+                "rates_instrument": "TLT",
+                "correlation": -0.2851885907812437
+              }
+            ]
+          },
+          {
+            "window": 20,
+            "pairs": [
+              {
+                "equity_instrument": "SPY",
+                "rates_instrument": "IEF",
+                "correlation": -0.6272436231344797
+              },
+              {
+                "equity_instrument": "SPY",
+                "rates_instrument": "TLT",
+                "correlation": -0.48214052247645245
+              },
+              {
+                "equity_instrument": "QQQ",
+                "rates_instrument": "IEF",
+                "correlation": -0.6706560153227528
+              },
+              {
+                "equity_instrument": "QQQ",
+                "rates_instrument": "TLT",
+                "correlation": -0.5408862560115838
+              }
+            ]
+          }
+        ],
+        "historical_scenarios": [
+          {
+            "historical_date": "2025-04-03",
+            "instrument_returns": {
+              "SPY": -0.04928063077084366,
+              "QQQ": -0.0535335467253546,
+              "IEF": 0.01028223919120519,
+              "TLT": 0.004593769735507625,
+              "LQD": -9.187898009266338e-05,
+              "HYG": -0.01242848179515832
+            },
+            "largest_declines": [
+              {
+                "instrument_id": "QQQ",
+                "daily_return": -0.0535335467253546
+              },
+              {
+                "instrument_id": "SPY",
+                "daily_return": -0.04928063077084366
+              },
+              {
+                "instrument_id": "HYG",
+                "daily_return": -0.01242848179515832
+              }
+            ],
+            "largest_gains": [
+              {
+                "instrument_id": "IEF",
+                "daily_return": 0.01028223919120519
+              },
+              {
+                "instrument_id": "TLT",
+                "daily_return": 0.004593769735507625
+              },
+              {
+                "instrument_id": "LQD",
+                "daily_return": -9.187898009266338e-05
+              }
+            ]
+          },
+          {
+            "historical_date": "2025-04-02",
+            "instrument_returns": {
+              "SPY": 0.00632830676688978,
+              "QQQ": 0.007298592908779211,
+              "IEF": -0.0009434794190272822,
+              "TLT": -0.0006556568535832641,
+              "LQD": 0.0023006036886266124,
+              "HYG": 0.002033051349509707
+            },
+            "largest_declines": [
+              {
+                "instrument_id": "IEF",
+                "daily_return": -0.0009434794190272822
+              },
+              {
+                "instrument_id": "TLT",
+                "daily_return": -0.0006556568535832641
+              },
+              {
+                "instrument_id": "HYG",
+                "daily_return": 0.002033051349509707
+              }
+            ],
+            "largest_gains": [
+              {
+                "instrument_id": "QQQ",
+                "daily_return": 0.007298592908779211
+              },
+              {
+                "instrument_id": "SPY",
+                "daily_return": 0.00632830676688978
+              },
+              {
+                "instrument_id": "LQD",
+                "daily_return": 0.0023006036886266124
+              }
+            ]
+          }
+        ],
+        "risk_signals": [
+          {
+            "code": "VOLATILITY_INCREASE",
+            "category": "VOLATILITY",
+            "severity": "WATCH",
+            "instruments": [
+              "SPY"
+            ],
+            "previous_20d_volatility": 0.15884269305126242,
+            "recent_20d_volatility": 0.3212874994323406,
+            "relative_change": 1.022677236583072,
+            "interpretation": "Recent annualized ETF return volatility is at least 25% higher than in the preceding 20 trading days."
+          },
+          {
+            "code": "VOLATILITY_INCREASE",
+            "category": "VOLATILITY",
+            "severity": "WATCH",
+            "instruments": [
+              "QQQ"
+            ],
+            "previous_20d_volatility": 0.21616609696461447,
+            "recent_20d_volatility": 0.3724543288812311,
+            "relative_change": 0.7230006652810148,
+            "interpretation": "Recent annualized ETF return volatility is at least 25% higher than in the preceding 20 trading days."
+          },
+          {
+            "code": "VOLATILITY_INCREASE",
+            "category": "VOLATILITY",
+            "severity": "WATCH",
+            "instruments": [
+              "HYG"
+            ],
+            "previous_20d_volatility": 0.03411090995804024,
+            "recent_20d_volatility": 0.08093130647392809,
+            "relative_change": 1.372593008321429,
+            "interpretation": "Recent annualized ETF return volatility is at least 25% higher than in the preceding 20 trading days."
+          }
+        ],
+        "risk_signal_summary": {
+          "total_signals": 3,
+          "correlation_signals": 0,
+          "volatility_signals": 3,
+          "scenario_signals": 0
+        },
+        "governance_warnings": [],
+        "methodology": {
+          "return_type": "Daily simple returns from adjusted ETF prices",
+          "annualization_factor": 252,
+          "volatility": "Sample standard deviation of daily returns multiplied by sqrt(252)",
+          "correlation": "Pearson correlation of daily ETF returns",
+          "cumulative_return": "Product of (1 + daily return) minus 1",
+          "volatility_change": "Most recent 20 daily returns compared with preceding 20 daily returns",
+          "scenario_definition": "Observed historical ETF daily returns on user-selected dates",
+          "risk_signals": "Illustrative analytical triggers for correlation increases, volatility increases, and historical joint losses. Not formal risk limits."
+        },
+        "data_sources": [
+          "data/sample/adjusted_prices.csv",
+          "data/sample/daily_positions.csv"
+        ],
+        "limitations": [
+          "ETF returns are market-risk proxies, not direct interest-rate or credit-spread factors.",
+          "IEF and TLT represent Treasury ETF exposure; their returns are not DV01 measurements.",
+          "LQD and HYG returns reflect combined market effects and are not direct CS01 measurements.",
+          "Historical correlations may change in future market conditions.",
+          "Scenario returns are historical observations, not forecasts or causal explanations.",
+          "Volatility and correlation estimates depend on the selected historical lookback window.",
+          "Market-risk signals use illustrative analytical thresholds and are not formal policy breaches.",
+          "The 20-day and 252-day correlation windows overlap; a difference does not establish a structural change.",
+          "Joint-loss signals describe selected historical scenarios, not the frequency of future joint losses."
+        ]
+      }
+    },
+    {
+      "tool_name": "check_data_quality",
+      "result": {
+        "tool": "check_data_quality",
+        "portfolio_id": "PORT_001",
+        "as_of_date": "2025-04-04",
+        "overall_status": "PASS",
+        "summary": {
+          "check_count": 8,
+          "issue_count": 0,
+          "error_count": 0,
+          "warning_count": 0
+        },
+        "checks": [
+          {
+            "check": "prices_source",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {
+              "path": "data/sample/adjusted_prices.csv"
+            }
+          },
+          {
+            "check": "positions_source",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {
+              "path": "data/sample/daily_positions.csv"
+            }
+          },
+          {
+            "check": "portfolio_source",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {
+              "path": "data/sample/daily_portfolio.csv"
+            }
+          },
+          {
+            "check": "portfolio_snapshot",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {
+              "snapshot_count": 1
+            }
+          },
+          {
+            "check": "position_integrity",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {
+              "position_count": 6
+            }
+          },
+          {
+            "check": "price_integrity_and_coverage",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {
+              "instrument_count": 6,
+              "required_return_observations": 5
+            }
+          },
+          {
+            "check": "nav_reconciliation",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {}
+          },
+          {
+            "check": "daily_pnl_reconciliation",
+            "status": "PASS",
+            "issue_count": 0,
+            "details": {}
+          }
+        ],
+        "issues": [],
+        "coverage": {
+          "HYG": {
+            "available_return_observations": 5,
+            "required_return_observations": 5,
+            "status": "PASS"
+          },
+          "IEF": {
+            "available_return_observations": 5,
+            "required_return_observations": 5,
+            "status": "PASS"
+          },
+          "LQD": {
+            "available_return_observations": 5,
+            "required_return_observations": 5,
+            "status": "PASS"
+          },
+          "QQQ": {
+            "available_return_observations": 5,
+            "required_return_observations": 5,
+            "status": "PASS"
+          },
+          "SPY": {
+            "available_return_observations": 5,
+            "required_return_observations": 5,
+            "status": "PASS"
+          },
+          "TLT": {
+            "available_return_observations": 5,
+            "required_return_observations": 5,
+            "status": "PASS"
+          }
+        },
+        "reconciliation": {
+          "nav": {
+            "reported_nav_usd": 136832037.812,
+            "computed_nav_usd": 136832037.81257,
+            "difference_usd": 0.0005699992179870605,
+            "status": "PASS"
+          },
+          "daily_pnl": {
+            "expected_pnl_usd": -5024511.528999984,
+            "reported_pnl_usd": -5024511.52904,
+            "difference_usd": 4.0016137063503265e-05,
+            "status": "PASS"
+          }
+        },
+        "data_sources": {
+          "prices": "data/sample/adjusted_prices.csv",
+          "positions": "data/sample/daily_positions.csv",
+          "portfolio": "data/sample/daily_portfolio.csv"
+        },
+        "methodology": {
+          "point_in_time": "Only source rows dated on or before the investigation date are inspected",
+          "history_requirement": "Previous N daily return observations excluding the as-of-date return",
+          "nav_reconciliation": "Sum of position market values plus cash equals reported NAV",
+          "daily_pnl_reconciliation": "Current NAV minus previous NAV equals reported daily P&L; assumes no external capital flows"
+        },
+        "limitations": [
+          "Does not independently verify market prices against an external vendor.",
+          "Does not classify extreme market returns as erroneous observations.",
+          "Does not validate transaction-level cash and quantity movements.",
+          "PASS means no issues found within the checks performed."
+        ]
+      }
+    }
+  ],
+  "findings": [],
+  "limitations": [
+    "Rejected analyze_risk_factors tool request: Scenario dates must precede as-of date"
+  ],
+  "draft_report": "## 1. Executive Summary\n\nFor **PORT_001**, investigated **2025-04-04**, the recorded HIGH-severity P&L-to-prior-day-VaR exception is a **BREACH**: the reported daily loss of **$5.025 million** was **2.015\u00d7** prior-day 99% VaR of **$2.494 million**, exceeding the 1.0 breach threshold (the warning threshold is 0.8; risk metrics and policy evidence). Daily attribution identifies QQQ and SPY as the largest loss contributors, while rates holdings\u2014principally IEF and TLT\u2014partly offset losses (P&L attribution evidence). The five-trading-day attributed P&L was **\u2212$7.546 million**, reconciled to reported cumulative P&L; no transactions were recorded in that window, and equity exposures accounted for 58.2% of NAV (attribution, transactions, and positions evidence). These are confirmed observations; the evidence does not establish the cause of the losses or whether the exception is part of a consecutive VaR-exceedance pattern.\n\n## 2. Exception and Observed Risk\n\n- **Exception:** `2025-04-04_PNL_VAR_EXCEEDANCE`, portfolio `PORT_001`, rule `PNL_VAR_EXCEEDANCE`, policy version 1.1; recorded severity **HIGH**, status **BREACH**.\n- **Reported daily P&L:** **\u2212$5,024,511.53**; daily return **\u22123.542%**.\n- **Prior-trading-day 99% VaR:** **$2,493,863.09**, with 252 available observations. The loss-to-prior-VaR ratio is **2.01475**, consistent with the recorded exception metric.\n- **Thresholds:** warning at **0.8** and breach for a ratio **greater than 1.0**, under the retrieved policy rule. The observation exceeds both thresholds. The policy tool characterizes the configured limits as illustrative and does not establish institutional approval or historical effective dates.\n- The reported **current-day** 99% VaR was **$2,534,135.69**; it is not the denominator used for this prior-day-VaR exception.\n\n## 3. Supporting Evidence\n\n- **Daily and multi-day P&L attribution:** The five-trading-day window **2025-03-31 to 2025-04-04** reported cumulative P&L of **\u2212$7,546,094.09** and a **PASS** reconciliation to reported cumulative P&L. Within the window, daily P&L was positive on March 31, April 1, and April 2, then **\u2212$4,439,937.10** on April 3 and **\u2212$5,024,511.53** on April 4. Each of the five daily attributions reconciled to reported daily P&L.\n- **April 4 contributors:** QQQ contributed **\u2212$3,026,943.03** and SPY **\u2212$2,111,989.94**. Rates contributed gains of **$59,465.45** from IEF and **$187,217.21** from TLT. HYG and LQD contributed losses of **$121,078.42** and **$11,182.79**, respectively. For the full five-day window, equity attribution was **\u2212$8,390,237.27**, rates attribution **+$958,307.02**, and credit attribution **\u2212$114,163.84**.\n- **Holdings and exposure:** At the investigation date, equities represented **58.2%** of NAV, rates **28.2%**, and credit **13.5%**. QQQ was the largest holding at **33.4%**; QQQ and SPY together were **58.2%** of NAV.\n- **Trading evidence:** Transaction analysis found **zero trades** from March 31 through April 4. The position-weight bridge attributes the observed daily weight changes to market effects, with negligible trade effects.\n- **Risk-model evidence:** The VaR attribution tool reports a **one-trading-day, 99% historical-simulation VaR** using a 252-observation window. It reconstructs reported VaR and ES with **PASS** reconciliation. Its ES attribution\u2014not VaR attribution\u2014assigns **92.7%** of portfolio ES contribution to equities; QQQ and SPY together account for about **92.7%** as well. The ES analysis warns that its tail attribution uses only **three** scenarios.\n- **Available return and data checks:** The risk-factor analysis reports elevated recent 20-day volatility relative to the preceding 20 days for SPY, QQQ, and HYG. Data-quality checks passed, including NAV and daily P&L reconciliation, with no issues found within the checks performed.\n\n## 4. Potential Drivers\n\n- The strongest evidence-supported **potential** driver is the portfolio\u2019s equity exposure and the losses attributed to QQQ and SPY on both April 3 and April 4. Risk-factor evidence also shows declines in those instruments in the selected April 3 historical scenario. These observations identify exposure and co-occurring returns; they do not establish an external event or causal explanation.\n- Rates gains from IEF and TLT were a material offset on April 4 and across the five-day window. Credit results were mixed over the window, but credit was a net loss contributor.\n- The risk-factor analysis indicates increased recent volatility for SPY, QQQ, and HYG. This may be relevant to review of the loss and VaR calibration, but the volatility signals are illustrative analytical triggers, not formal policy breaches.\n- No recorded transactions in the five-day window means there is no evidence of active de-risking through trades during that period. It does not, by itself, explain the market movements or establish why the positions were held.\n\n## 5. Limitations\n\n- The evidence confirms the April 4 exceedance but does **not** provide a sequence of prior-day P&L-to-prior-day-VaR ratios. The large April 3 loss is documented, but whether it was also a VaR exceedance\u2014and thus whether breaches were consecutive\u2014remains unresolved.\n- The VaR attribution evidence is for the current-day VaR and ES analysis; the reported instrument risk contributions are **ES contributions, not VaR contributions**. It therefore does not establish instrument-level attribution of the prior-day VaR used in the exception ratio.\n- The risk-factor and attribution data use adjusted ETF prices described as synthetic total-return units. ETF returns are proxies, not direct rate or credit-spread sensitivities; the analysis does not provide DV01 or CS01. The attribution methodology assumes zero fees and no external cash flows and does not separately calculate intraday execution or realized trading P&L.\n- Data-quality **PASS** results mean no issue was found within the checks performed; prices were not independently verified against an external vendor. The policy configuration is described as illustrative, and its approval status and historical effective date are not established.\n- A VaR exceedance is a backtesting observation. The evidence does not establish model failure, an erroneous market observation, or a causal market event.\n\n## 6. Recommended Human Review\n\nHuman risk-management review is required. Confirm the reported P&L, prior-day VaR, applicable policy approval and effective date, and the required escalation under the organization\u2019s governance process. Review April 3 and other preceding trading days against their respective prior-day VaR estimates to determine whether any additional or consecutive exceedances occurred. Assess whether the historical-simulation VaR window and the current portfolio exposures adequately represent the observed equity losses, taking account of the limited three-scenario ES tail attribution and the ETF-proxy methodology. Review the loss attribution, offsets, and absence of recorded trades before reaching conclusions about portfolio actions or model adequacy.",
+  "budget": {
+    "llm_calls": 10,
+    "max_llm_calls": 10,
+    "tool_calls": 8,
+    "max_tool_calls": 12,
+    "max_output_tokens_per_call": 6000,
+    "estimated_cost_usd": "0.0079922",
+    "max_estimated_cost_usd": "0.05",
+    "active_reservations": 0,
+    "reserved_cost_usd": "0"
+  },
+  "api_audit": [
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b03e0b087d2b7f13bb8bbe354ce",
+      "input_tokens": 1272,
+      "output_tokens": 16,
+      "estimated_cost_usd": "0.0001352",
+      "reservation_id": "8e29a263-48ec-42c8-af5d-6c27259aa9b8",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b0551b487d287addc5d0effe427",
+      "input_tokens": 1685,
+      "output_tokens": 36,
+      "estimated_cost_usd": "0.0001865",
+      "reservation_id": "2d90a830-530c-4fc4-9862-626b9485e3f4",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b06f7bc87d297a7516bd490d87e",
+      "input_tokens": 2144,
+      "output_tokens": 28,
+      "estimated_cost_usd": "0.0002284",
+      "reservation_id": "0b06f773-19d7-4287-874d-0cc0dac6fb8c",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b08510487d28ac8e5e30fd74e3d",
+      "input_tokens": 4211,
+      "output_tokens": 15,
+      "estimated_cost_usd": "0.0004286",
+      "reservation_id": "c3613201-bd76-4077-8228-23a534a57e29",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b097cf087d2abef62d6440ed933",
+      "input_tokens": 5485,
+      "output_tokens": 21,
+      "estimated_cost_usd": "0.000559",
+      "reservation_id": "e76ebdf7-2fcf-4bd4-9eeb-49b9f8340ae0",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b0b92c887d2aa073af36812ecb8",
+      "input_tokens": 5771,
+      "output_tokens": 16,
+      "estimated_cost_usd": "0.0005851",
+      "reservation_id": "28d10396-e8fb-4d3d-b8e2-0bbbba1ae663",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b0c75dc87d2be6fb33b2f992024",
+      "input_tokens": 9347,
+      "output_tokens": 149,
+      "estimated_cost_usd": "0.0010092",
+      "reservation_id": "d394e31f-d932-4273-986d-51fcebb50fcd",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b0f021487d2b08f3f771d6f6f2a",
+      "input_tokens": 9575,
+      "output_tokens": 60,
+      "estimated_cost_usd": "0.0009875",
+      "reservation_id": "2a095055-cb6d-4880-8251-ffaeaeb10afd",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b10738c87d2b1bb78a4b712388c",
+      "input_tokens": 13297,
+      "output_tokens": 21,
+      "estimated_cost_usd": "0.0013402",
+      "reservation_id": "271352e7-1678-457e-90d8-add3962a7d29",
+      "details": null
+    },
+    {
+      "model": "gpt-6-luna",
+      "outcome": "COMPLETED",
+      "response_id": "resp_05dbeb6a67f47615016ada8b11880c87d2a7381ed99d683e13",
+      "input_tokens": 13615,
+      "output_tokens": 2342,
+      "estimated_cost_usd": "0.0025325",
+      "reservation_id": "28dd62b9-b59a-4fca-adf8-ff5532695e91",
+      "details": null
+    }
+  ]
+}
