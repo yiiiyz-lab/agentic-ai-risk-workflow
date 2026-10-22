@@ -88,7 +88,17 @@ Executive Summary requirements:
 - Use professional risk-management language.
 - Avoid repeating disclaimers in the Executive Summary.
 - Keep the report's draft status and human-review requirement
-  in the Recommended Human Review section.
+  in the Recommended Human Review section. 
+
+Evidence citation requirements:
+- Cite every material numerical claim and analytical finding.
+- Use the format [tool_name, evidence N].
+- Use the actual tool name and zero-based evidence index.
+- For multiple sources, use
+  [tool_a, evidence 0; tool_b, evidence 1].
+- Do not use vague references such as
+  "risk metrics evidence" or "attribution evidence".
+- Never invent tool names or evidence indices.
 
 The detailed sections must substantiate the Executive Summary.
 Do not introduce unsupported conclusions.
