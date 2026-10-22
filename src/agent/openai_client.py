@@ -143,8 +143,8 @@ class OpenAIResponsesClient:
     The application owns tool execution, not this client.
     """
 
-    MAX_INPUT_ESTIMATE = 12000
-    MAX_REQUEST_CHARS = 40000
+    MAX_INPUT_ESTIMATE = 24000
+    MAX_REQUEST_CHARS = 80000
 
     def __init__(
         self,
@@ -172,7 +172,7 @@ class OpenAIResponsesClient:
             self._sdk_client = OpenAI(
                 api_key=self.config.api_key,
                 max_retries=0,
-                timeout=30.0,
+                timeout=90.0,
             )
 
         return self._sdk_client
@@ -262,7 +262,9 @@ class OpenAIResponsesClient:
 
         if len(serialized) > self.MAX_REQUEST_CHARS:
             raise ValueError(
-                "Request payload exceeds character limit"
+                f"Request payload exceeds character limit: "
+                f"{len(serialized):,} > "
+                f"{self.MAX_REQUEST_CHARS:,} characters"
             )
 
         max_output_tokens = (
@@ -297,7 +299,7 @@ class OpenAIResponsesClient:
             self._audit(
                 outcome="UNCERTAIN",
                 reservation_id=reservation_id,
-                details="Request failed without usage data",
+                details=f"Request exception: {type(exc).__name__}",
             )
 
             raise APIRequestUncertainError(

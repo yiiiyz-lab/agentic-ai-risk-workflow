@@ -1,7 +1,9 @@
 
 from pathlib import Path
+
 import numpy as np
 import pandas as pd
+
 
 ASSET_GROUPS = {
     "SPY": "Equity",
@@ -116,16 +118,19 @@ def calculate_risk_metrics(data_dir="data/sample"):
     ):
         raise ValueError("Daily P&L reconciliation failed")
 
-    # Historical Simulation: current holdings under past daily returns.
+    # ---------------------------------------------------------
+    # Historical Simulation VaR and Expected Shortfall
+    # ---------------------------------------------------------
+    # Revalue current holdings using historical daily returns.
     # Require 252 complete historical return observations.
+    # Exclude the valuation date's return.
+    # ---------------------------------------------------------
+
     var_values = []
     es_values = []
-
-    # Track historical data availability for VaR and ES.
     var_available_observations = []
 
     for i, date in enumerate(prices.index):
-        # Exclude the valuation date's return.
         # The first price observation has no daily return.
         available = min(max(i - 1, 0), VAR_WINDOW)
         var_available_observations.append(available)
@@ -135,7 +140,6 @@ def calculate_risk_metrics(data_dir="data/sample"):
             es_values.append(np.nan)
             continue
 
-        # Use the previous 252 completed daily returns.
         historical_returns = price_returns.iloc[
             i - VAR_WINDOW : i
         ]
@@ -143,75 +147,184 @@ def calculate_risk_metrics(data_dir="data/sample"):
         current_values = market_values.loc[date]
 
         scenario_pnl = historical_returns.mul(
-            current_values, axis=1
+            current_values,
+            axis=1,
         ).sum(axis=1)
 
-        # 99% loss VaR and ES, expressed as positive loss amounts.
+        # Positive loss convention for VaR and ES.
         scenario_losses = -scenario_pnl.to_numpy()
 
-        var_99 = float(np.quantile(
-            scenario_losses, CONFIDENCE, method="linear"
-        ))
+        var_99 = float(
+            np.quantile(
+                scenario_losses,
+                CONFIDENCE,
+                method="linear",
+            )
+        )
 
         tail_losses = scenario_losses[
             scenario_losses >= var_99
         ]
 
         var_values.append(max(0.0, var_99))
-        es_values.append(max(0.0, float(tail_losses.mean())))
+
+        es_values.append(
+            max(0.0, float(tail_losses.mean()))
+        )
 
     results["var_99_usd"] = var_values
     results["es_99_usd"] = es_values
-    results["var_99_pct_nav"] = results["var_99_usd"] / nav
-    results["es_99_pct_nav"] = results["es_99_usd"] / nav
 
-    # Historical data availability for UI and AI investigation.
-    results["var_available_observations"] = var_available_observations
+    results["var_99_pct_nav"] = (
+        results["var_99_usd"] / nav
+    )
+
+    results["es_99_pct_nav"] = (
+        results["es_99_usd"] / nav
+    )
+
+    # ---------------------------------------------------------
+    # Historical Data Availability
+    # ---------------------------------------------------------
+
+    results["var_available_observations"] = (
+        var_available_observations
+    )
     results["var_required_observations"] = VAR_WINDOW
 
-    results["es_available_observations"] = var_available_observations
+    results["es_available_observations"] = (
+        var_available_observations
+    )
     results["es_required_observations"] = VAR_WINDOW
 
-    # Rolling realized portfolio volatility.
+    # ---------------------------------------------------------
+    # NEW: P&L Exception Monitoring
+    # ---------------------------------------------------------
+    # Compare today's realized loss with the 99% VaR estimate
+    # available at the previous trading day's close.
+    #
+    # Loss / Prior-Day VaR:
+    #     < 0.80 : PASS
+    #     >= 0.80 and <= 1.00 : WARNING
+    #     > 1.00 : BREACH
+    #
+    # Status classification belongs to exception_detector.py.
+    # This calculator only produces the underlying metrics.
+    # ---------------------------------------------------------
+
+    results["prior_var_99_usd"] = (
+        results["var_99_usd"].shift(1)
+    )
+
+    results["prior_var_available_observations"] = (
+        results["var_available_observations"].shift(1)
+    )
+
+    realized_loss = (
+        -results["daily_pnl_usd"]
+    ).clip(lower=0)
+
+    valid_prior_var = (
+        results["prior_var_99_usd"].notna()
+        & np.isfinite(results["prior_var_99_usd"])
+        & (results["prior_var_99_usd"] > 0)
+    )
+
+    # Keep unavailable ratios as NaN rather than treating
+    # missing VaR observations as zero or PASS.
+    results["pnl_loss_to_prior_var"] = np.nan
+
+    results.loc[
+        valid_prior_var,
+        "pnl_loss_to_prior_var",
+    ] = (
+        realized_loss.loc[valid_prior_var]
+        / results.loc[
+            valid_prior_var,
+            "prior_var_99_usd",
+        ]
+    )
+
+    # ---------------------------------------------------------
+    # Rolling Realized Portfolio Volatility
+    # ---------------------------------------------------------
+
     results["annualized_volatility"] = (
         portfolio_returns.rolling(
-            VOL_WINDOW, min_periods=VOL_WINDOW
+            VOL_WINDOW,
+            min_periods=VOL_WINDOW,
         ).std(ddof=1) * np.sqrt(TRADING_DAYS)
     )
 
-    # Since inception drawdown.
-    running_peak = nav.cummax()
-    results["drawdown"] = nav / running_peak - 1.0
+    # ---------------------------------------------------------
+    # Since-Inception Drawdown
+    # ---------------------------------------------------------
 
-    # Current exposure, as a percentage of NAV.
+    running_peak = nav.cummax()
+
+    results["drawdown"] = (
+        nav / running_peak - 1.0
+    )
+
+    # ---------------------------------------------------------
+    # Asset-Class Exposures
+    # ---------------------------------------------------------
+
     for group in ("Equity", "Rates", "Credit"):
         group_symbols = [
-            symbol for symbol, category in ASSET_GROUPS.items()
+            symbol
+            for symbol, category in ASSET_GROUPS.items()
             if category == group
         ]
 
-        exposure = market_values[group_symbols].sum(axis=1)
+        exposure = market_values[
+            group_symbols
+        ].sum(axis=1)
 
-        results[f"{group.lower()}_exposure_usd"] = exposure
-        results[f"{group.lower()}_exposure_pct"] = exposure / nav
+        results[f"{group.lower()}_exposure_usd"] = (
+            exposure
+        )
 
-    weights = market_values.div(nav, axis=0)
-    results["largest_position_weight"] = weights.max(axis=1)
-    results["largest_position_symbol"] = weights.idxmax(axis=1)
+        results[f"{group.lower()}_exposure_pct"] = (
+            exposure / nav
+        )
 
-    # Portfolio beta versus SPY using historical portfolio returns.
+    # ---------------------------------------------------------
+    # Single-Instrument Concentration
+    # ---------------------------------------------------------
+
+    weights = market_values.div(
+        nav,
+        axis=0,
+    )
+
+    results["largest_position_weight"] = (
+        weights.max(axis=1)
+    )
+
+    results["largest_position_symbol"] = (
+        weights.idxmax(axis=1)
+    )
+
+    # ---------------------------------------------------------
+    # Portfolio Beta Versus SPY
+    # ---------------------------------------------------------
+
     benchmark_returns = price_returns["SPY"]
 
     rolling_cov = portfolio_returns.rolling(
-        BETA_WINDOW, min_periods=BETA_WINDOW
+        BETA_WINDOW,
+        min_periods=BETA_WINDOW,
     ).cov(benchmark_returns)
 
     rolling_var = benchmark_returns.rolling(
-        BETA_WINDOW, min_periods=BETA_WINDOW
+        BETA_WINDOW,
+        min_periods=BETA_WINDOW,
     ).var(ddof=1)
 
-    results["equity_beta_spy"] = rolling_cov / rolling_var.replace(
-        0, np.nan
+    results["equity_beta_spy"] = (
+        rolling_cov
+        / rolling_var.replace(0, np.nan)
     )
 
     return results.reset_index()
@@ -224,7 +337,14 @@ def save_risk_metrics(
     metrics = calculate_risk_metrics(data_dir)
 
     output_path = Path(output_path)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
-    metrics.to_csv(output_path, index=False)
+    metrics.to_csv(
+        output_path,
+        index=False,
+    )
+
     return metrics

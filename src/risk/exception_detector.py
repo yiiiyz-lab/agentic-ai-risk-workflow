@@ -11,6 +11,8 @@ VALID_DIRECTIONS = {"max", "min"}
 VALID_SEVERITIES = {"LOW", "MEDIUM", "HIGH", "CRITICAL"}
 INVESTIGATION_STATUSES = {"WARNING", "BREACH", "NOT_EVALUATED"}
 
+PNL_VAR_METRIC = "pnl_loss_to_prior_var"
+
 
 def load_risk_policy(path="config/risk_limits.yaml"):
     with open(path, "r", encoding="utf-8") as file:
@@ -23,6 +25,7 @@ def load_risk_policy(path="config/risk_limits.yaml"):
         raise ValueError("Missing portfolio_id")
 
     rules = policy.get("rules")
+
     if not isinstance(rules, list) or not rules:
         raise ValueError("Risk policy must contain rules")
 
@@ -30,8 +33,11 @@ def load_risk_policy(path="config/risk_limits.yaml"):
 
     for rule in rules:
         required = {
-            "rule_id", "metric", "direction",
-            "warning_threshold", "breach_threshold",
+            "rule_id",
+            "metric",
+            "direction",
+            "warning_threshold",
+            "breach_threshold",
             "severity",
         }
 
@@ -65,6 +71,22 @@ def load_risk_policy(path="config/risk_limits.yaml"):
 
 
 def evaluate_rule(value, rule):
+    """
+    Evaluate one metric against its configured thresholds.
+
+    Max rule:
+        value > breach   -> BREACH
+        value >= warning -> WARNING
+        otherwise        -> PASS
+
+    Min rule:
+        value < breach   -> BREACH
+        value <= warning -> WARNING
+        otherwise        -> PASS
+
+    Missing or non-finite values:
+        NOT_EVALUATED
+    """
     if pd.isna(value):
         return "NOT_EVALUATED"
 
@@ -79,64 +101,118 @@ def evaluate_rule(value, rule):
     if rule["direction"] == "max":
         if value > breach:
             return "BREACH"
+
         if value >= warning:
             return "WARNING"
 
     else:
         if value < breach:
             return "BREACH"
+
         if value <= warning:
             return "WARNING"
 
     return "PASS"
 
 
+def _observation_metadata(observation, metric):
+    """
+    Return (available, required) historical observation counts.
+
+    VaR and ES use their existing metadata.
+
+    P&L monitoring requires prior-day VaR, so its available
+    observation count must come from the previous trading day.
+    """
+    if metric.startswith("var_99_"):
+        available_key = "var_available_observations"
+        required_key = "var_required_observations"
+
+    elif metric.startswith("es_99_"):
+        available_key = "es_available_observations"
+        required_key = "es_required_observations"
+
+    elif metric == PNL_VAR_METRIC:
+        available_key = "prior_var_available_observations"
+        required_key = "var_required_observations"
+
+    else:
+        return None, None
+
+    return (
+        observation.get(available_key),
+        observation.get(required_key),
+    )
+
+
+def _normalize_observation_count(value):
+    """
+    Convert a finite, nonnegative, integer-valued count to int.
+
+    Missing or invalid counts are returned as None.
+    """
+    if value is None or pd.isna(value):
+        return None
+
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
+
+    if (
+        not np.isfinite(numeric)
+        or numeric < 0
+        or not numeric.is_integer()
+    ):
+        return None
+
+    return int(numeric)
+
+
 def classify_unavailability(observation, metric):
     """
     Classify unavailable risk metrics using deterministic evidence.
 
-    Expected VaR/ES warm-up:
-        INSUFFICIENT_HISTORY
+    INSUFFICIENT_HISTORY:
+        Required historical observations are not yet available.
 
-    Missing or inconsistent evidence:
-        UNKNOWN
+    UNKNOWN:
+        Historical observations are sufficient, metadata is
+        missing/invalid, or another input issue exists.
 
-    This function does not determine whether an observation
-    should enter the investigation queue.
+    For P&L monitoring, the historical observation count refers
+    to the prior trading day's VaR availability.
     """
-    if metric.startswith("var_99_"):
-        prefix = "var"
-    elif metric.startswith("es_99_"):
-        prefix = "es"
-    else:
-        return "UNKNOWN"
-
-    available = observation.get(
-        f"{prefix}_available_observations"
-    )
-    required = observation.get(
-        f"{prefix}_required_observations"
+    available, required = _observation_metadata(
+        observation,
+        metric,
     )
 
-    if pd.isna(available) or pd.isna(required):
+    available = _normalize_observation_count(available)
+    required = _normalize_observation_count(required)
+
+    if available is None or required is None:
         return "UNKNOWN"
 
-    try:
-        available = float(available)
-        required = float(required)
-    except (TypeError, ValueError):
-        return "UNKNOWN"
-
-    if not np.isfinite(available) or not np.isfinite(required):
-        return "UNKNOWN"
-
-    if required > 0 and 0 <= available < required:
+    if required > 0 and available < required:
         return "INSUFFICIENT_HISTORY"
 
     return "UNKNOWN"
 
 
 def detect_exceptions(metrics, policy):
+    """
+    Evaluate every configured risk rule on every portfolio date.
+
+    Output includes all evaluations:
+        PASS
+        WARNING
+        BREACH
+        NOT_EVALUATED
+
+    P&L monitoring uses the same evaluation and exception
+    structure as all existing risk rules.
+    """
     if metrics.empty:
         raise ValueError("Risk metrics cannot be empty")
 
@@ -144,15 +220,25 @@ def detect_exceptions(metrics, policy):
         raise ValueError("Duplicate portfolio/date risk observations")
 
     required = {"date", "portfolio_id"}
-    required.update(rule["metric"] for rule in policy["rules"])
+
+    required.update(
+        rule["metric"]
+        for rule in policy["rules"]
+    )
 
     missing = required - set(metrics.columns)
+
     if missing:
-        raise ValueError(f"Missing risk metrics: {sorted(missing)}")
+        raise ValueError(
+            f"Missing risk metrics: {sorted(missing)}"
+        )
 
     portfolio_ids = set(metrics["portfolio_id"].dropna())
+
     if portfolio_ids != {policy["portfolio_id"]}:
-        raise ValueError("Portfolio ID does not match risk policy")
+        raise ValueError(
+            "Portfolio ID does not match risk policy"
+        )
 
     records = []
 
@@ -164,66 +250,55 @@ def detect_exceptions(metrics, policy):
         for rule in policy["rules"]:
             metric = rule["metric"]
             raw_value = observation[metric]
-            status = evaluate_rule(raw_value, rule)
+
+            status = evaluate_rule(
+                raw_value,
+                rule,
+            )
 
             value = (
                 float(raw_value)
-                if pd.notna(raw_value)
-                and np.isfinite(float(raw_value))
+                if status != "NOT_EVALUATED"
                 else None
             )
 
-            # Classify unavailable metrics using available evidence.
             reason_code = (
-                classify_unavailability(observation, metric)
+                classify_unavailability(
+                    observation,
+                    metric,
+                )
                 if status == "NOT_EVALUATED"
                 else None
             )
 
-            # Extract historical observation counts for VaR/ES.
-            if metric.startswith("var_99_"):
-                prefix = "var"
-            elif metric.startswith("es_99_"):
-                prefix = "es"
-            else:
-                prefix = None
+            available_raw, required_raw = (
+                _observation_metadata(
+                    observation,
+                    metric,
+                )
+            )
 
             available_observations = (
-                observation.get(
-                    f"{prefix}_available_observations"
+                _normalize_observation_count(
+                    available_raw
                 )
-                if prefix else None
             )
 
             required_observations = (
-                observation.get(
-                    f"{prefix}_required_observations"
+                _normalize_observation_count(
+                    required_raw
                 )
-                if prefix else None
             )
 
-            # Convert missing/non-finite metadata to None.
-            if available_observations is not None:
-                if pd.isna(available_observations):
-                    available_observations = None
-                else:
-                    available_observations = int(
-                        available_observations
-                    )
-
-            if required_observations is not None:
-                if pd.isna(required_observations):
-                    required_observations = None
-                else:
-                    required_observations = int(
-                        required_observations
-                    )
-
             records.append({
-                "exception_id": f"{date}_{rule['rule_id']}",
+                "exception_id": (
+                    f"{date}_{rule['rule_id']}"
+                ),
                 "date": date,
                 "portfolio_id": policy["portfolio_id"],
-                "policy_version": policy.get("policy_version", ""),
+                "policy_version": policy.get(
+                    "policy_version", ""
+                ),
                 "rule_id": rule["rule_id"],
                 "metric": metric,
                 "metric_value": value,
@@ -237,8 +312,12 @@ def detect_exceptions(metrics, policy):
                 "severity": rule["severity"],
                 "status": status,
                 "reason_code": reason_code,
-                "available_observations": available_observations,
-                "required_observations": required_observations,
+                "available_observations": (
+                    available_observations
+                ),
+                "required_observations": (
+                    required_observations
+                ),
             })
 
     return pd.DataFrame(records)
@@ -249,23 +328,47 @@ def save_exception_results(
     policy_path="config/risk_limits.yaml",
     output_dir="data/outputs",
 ):
+    """
+    Save risk evaluations and investigation queue.
+
+    Outputs:
+        risk_limit_evaluations.csv
+        risk_exceptions.csv
+        investigation_queue.csv
+        latest_exception_summary.json
+
+    P&L exceptions are included automatically when the
+    PNL_VAR_EXCEEDANCE rule is configured in risk_limits.yaml.
+    """
     metrics = pd.read_csv(metrics_path)
     policy = load_risk_policy(policy_path)
 
-    evaluations = detect_exceptions(metrics, policy)
+    evaluations = detect_exceptions(
+        metrics,
+        policy,
+    )
 
-    # Market risk exceptions: preserve the existing definition.
+    # Preserve existing definition of risk exceptions:
+    # WARNING and BREACH only.
     exceptions = evaluations.loc[
-        evaluations["status"].isin(["WARNING", "BREACH"])
+        evaluations["status"].isin(
+            ["WARNING", "BREACH"]
+        )
     ].copy()
 
-    # Unified investigation queue: all non-PASS evaluations.
+    # Unified investigation queue:
+    # All non-PASS observations, including NOT_EVALUATED.
     investigation_queue = evaluations.loc[
-        evaluations["status"].isin(INVESTIGATION_STATUSES)
+        evaluations["status"].isin(
+            INVESTIGATION_STATUSES
+        )
     ].copy()
 
     output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
     evaluations.to_csv(
         output_dir / "risk_limit_evaluations.csv",
@@ -283,6 +386,7 @@ def save_exception_results(
     )
 
     latest_date = evaluations["date"].max()
+
     latest = evaluations.loc[
         evaluations["date"] == latest_date
     ]
@@ -290,7 +394,9 @@ def save_exception_results(
     summary = {
         "date": latest_date,
         "portfolio_id": policy["portfolio_id"],
-        "policy_version": policy.get("policy_version", ""),
+        "policy_version": policy.get(
+            "policy_version", ""
+        ),
         "pass_count": int(
             (latest["status"] == "PASS").sum()
         ),
@@ -311,7 +417,9 @@ def save_exception_results(
                 "metric_value",
                 "severity",
             ],
-        ].to_dict(orient="records"),
+        ].to_dict(
+            orient="records"
+        ),
     }
 
     with open(
@@ -326,5 +434,5 @@ def save_exception_results(
             allow_nan=False,
         )
 
-    # Preserve compatibility with existing scripts/tests.
+    # Preserve compatibility with existing scripts and tests.
     return evaluations, exceptions, summary

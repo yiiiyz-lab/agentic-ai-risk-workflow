@@ -82,20 +82,30 @@ def test_failed_response_is_rejected():
 
 
 def test_oversized_request_is_blocked():
+    """Reject requests exceeding the configured character limit."""
     client = make_client()
 
-    with pytest.raises(ValueError):
+    oversized_instructions = (
+        "X" * (client.MAX_REQUEST_CHARS + 1)
+    )
+
+    with pytest.raises(
+        ValueError,
+        match="Request payload exceeds character limit",
+    ):
         client.create_response(
-            instructions="X" * 50000,
+            instructions=oversized_instructions,
             input=[],
             tools=[],
             max_input_tokens_estimate=1000,
         )
 
+    # Validation must fail before an API call is recorded.
     assert client.budget.llm_calls == 0
 
 
 def test_input_estimate_ceiling():
+    """Reject input estimates above the configured ceiling."""
     client = make_client()
 
     with pytest.raises(ValueError):
@@ -103,8 +113,13 @@ def test_input_estimate_ceiling():
             instructions="Test",
             input=[],
             tools=[],
-            max_input_tokens_estimate=12001,
+            max_input_tokens_estimate=(
+                client.MAX_INPUT_ESTIMATE + 1
+            ),
         )
+
+    # Validation must fail before an API call is recorded.
+    assert client.budget.llm_calls == 0
 
 
 def test_valid_tool_result_serialization():

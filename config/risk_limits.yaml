@@ -1,6 +1,6 @@
 
 portfolio_id: PORT_001
-policy_version: "1.0"
+policy_version: "1.1"
 policy_type: illustrative_internal_limits
 
 rules:
@@ -47,4 +47,13 @@ rules:
     warning_threshold: -0.10
     breach_threshold: -0.15
     unit: return
+    severity: HIGH
+
+  - rule_id: PNL_VAR_EXCEEDANCE
+    metric: pnl_loss_to_prior_var
+    label: Daily P&L Loss / Prior-Day 99% VaR
+    direction: max
+    warning_threshold: 0.80
+    breach_threshold: 1.00
+    unit: ratio
     severity: HIGH
