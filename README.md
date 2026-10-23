@@ -1,23 +1,26 @@
 
 # Agentic AI Risk Investigation & Reporting Automation
 
-**An AI-powered workflow for portfolio risk monitoring, automated exception investigation, and evidence-grounded risk reporting.**
+**An AI-powered risk workflow for portfolio monitoring, automated exception investigation, and evidence-grounded risk reporting.**
 
 [**Live Dashboard**](https://agentic-ai-risk-workflow-1826.streamlit.app/)
 
 ## Overview
 
-This project demonstrates an end-to-end, agentic AI workflow that integrates quantitative risk analytics, automated exception detection, AI-assisted investigation, and structured risk reporting.
+This project implements an **agentic AI risk investigation system** that integrates quantitative portfolio analytics, automated risk limit monitoring, and AI-driven investigation and reporting.
 
-The system monitors a multi-asset portfolio, evaluates risk metrics against configurable limits, and identifies exceptions requiring further investigation. An AI agent can then select and execute analytical tools, interpret the results, and generate an evidence-grounded investigation report.
+The system monitors a multi-asset portfolio, calculates risk metrics, and evaluates exposures and performance against configurable risk limits. When an exception is detected, an AI agent investigates the event by **dynamically selecting and executing analytical tools** based on the risk type and available evidence.
 
-Unlike a conventional risk dashboard, the project focuses on **automating the investigation process**, from detecting unusual risk conditions to gathering supporting evidence and preparing findings for human review.
+The agent can analyze portfolio positions, trading activity, P&L and VaR attribution, market risk factors, stress scenarios, and data quality to identify potential drivers of a risk exception. It then consolidates the findings into a structured, evidence-grounded investigation report, supported by tool outputs and an auditable investigation trace.
 
-The application is built around three principles:
+**The core feature is the automation of risk investigation**, extending beyond traditional dashboards that primarily visualize metrics and flag limit breaches.
 
-- **Automated monitoring:** Identify risk exceptions systematically using predefined metrics and policies.
-- **Evidence-grounded investigation:** Use quantitative tools and recorded evidence to support AI-generated findings.
-- **Transparency and governance:** Maintain investigation traces, analytical limitations, and explicit human-review requirements.
+### Key Capabilities
+
+- **Automated Risk Monitoring:** Calculate portfolio risk metrics, evaluate configurable limits, and detect exceptions.
+- **Agentic AI Investigation:** Dynamically select and execute specialized risk analysis tools to investigate exceptions and identify potential root causes.
+- **Evidence-Based Reporting:** Generate structured investigation reports with analytical findings, supporting evidence, and explicit limitations.
+- **Investigation Trace & Governance:** Record tool execution, evidence references, and investigation steps to support transparency and human review.
 
 ## Key Capabilities
 
@@ -261,7 +264,7 @@ agentic-ai-risk-workflow/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/agentic-ai-risk-workflow.git
+git clone https://github.com/yiiiyz_lab/agentic-ai-risk-workflow.git
 cd agentic-ai-risk-workflow
 ```
 
