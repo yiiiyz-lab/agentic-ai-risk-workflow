@@ -15,13 +15,6 @@ The agent can analyze portfolio positions, trading activity, P&L and VaR attribu
 
 **The core feature is the automation of risk investigation**, extending beyond traditional dashboards that primarily visualize metrics and flag limit breaches.
 
-### Key Capabilities
-
-- **Automated Risk Monitoring:** Calculate portfolio risk metrics, evaluate configurable limits, and detect exceptions.
-- **Agentic AI Investigation:** Dynamically select and execute specialized risk analysis tools to investigate exceptions and identify potential root causes.
-- **Evidence-Based Reporting:** Generate structured investigation reports with analytical findings, supporting evidence, and explicit limitations.
-- **Investigation Trace & Governance:** Record tool execution, evidence references, and investigation steps to support transparency and human review.
-
 ## Key Capabilities
 
 ### 1. Portfolio Risk Monitoring
